@@ -1,5 +1,17 @@
 extends layout
 
 block content 
-    main.container 
-        h1.text-center= title 
+    main
+        section#hero
+            h1 Bienvenido a Nombre del Sitio Web
+            p Descripción breve del sitio web y lo que ofrece
+            a(href="#", class="btn") Conoce más
+            h2 Toneos
+                .product-grid
+                    each el in results 
+                        .product
+                            img(src="", alt="img torneo 1")
+                            h3 #{el.userName}
+                            p La contrasena es: #{el.password}
+                            a(href="#", class="btn") Más información
+                    

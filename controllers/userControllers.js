@@ -1,11 +1,15 @@
-
-let cosas = [
-    {id: 1, title: 'hola', buleano: true},
-    {id: 2, title: 'que pasa', buleano: false},
-]
+import connection from './connectionDB.js';
 
 const getUsers = (req, res)=>{
-    res.render('index.pug', {title: 'Primera pagina', cosas})
+    const consulta = 'SELECT * FROM usuarios';
+    connection.query(consulta, (error, results, fields)=>{
+        if (error){
+            console.error(error);
+        }else{
+            res.render('index.pug', {title: 'Torneo', results});
+        }
+    })
+    
 }
 
 export default {getUsers}
