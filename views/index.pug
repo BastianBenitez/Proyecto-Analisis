@@ -6,12 +6,14 @@ block content
             h1 Bienvenido a Nombre del Sitio Web
             p Descripción breve del sitio web y lo que ofrece
             a(href="#", class="btn") Conoce más
-            h2 Toneos
+            h1 Toneos
                 .product-grid
                     each el in results 
                         .product
-                            img(src="", alt="img torneo 1")
-                            h3 #{el.userName}
-                            p La contrasena es: #{el.password}
+                            img(src="/img/img.jpeg", alt="img torneo 1")
+                            h3 #{el.nombreTorneo}
+                            p #{el.descripcion}
+                            p Inicio: #{el.fechaInicioLegible} 
+                            p Termino: #{el.fechaTerminoLegible}
                             a(href="#", class="btn") Más información
                     

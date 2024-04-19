@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import helmet from 'helmet';
 
 //importacion de los contrladores de usuarios
-import userControllers from './controllers/userControllers.js';
+import userControllers from './controllers/tournamentControllers.js';
 
 const app  = express();
 const port = 3000
@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-app.get('/', userControllers.getUsers)
+app.get('/', userControllers.getAllTournaments)
 
 app.listen(port, ()=>{
     console.log(`la aplicacion es ejecuntadonse en http://localhost:${port}`)

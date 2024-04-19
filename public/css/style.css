@@ -76,6 +76,7 @@ nav a {
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;
+  font-size: 16px;
 }
 
 /* Productos destacados */
@@ -85,10 +86,14 @@ nav a {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
 }
 
+.product {
+  max-width: 300px;
+  height: auto;
+}
 .product img {
   max-width: 100%;
   height: auto;
@@ -97,6 +102,7 @@ nav a {
 .product h3 {
   margin-top: 10px;
 }
+
 
 /* Pie de página */
 footer {
