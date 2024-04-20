@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .register-container
+        h2 Registro
+        form(action="/register" method="post")
+            .form-group
+                label(for="username") Usuario
+                input#username.form-control(type="text" name="username" placeholder="Ingresa tu usuario" required)
+            
+            .form-group
+                label(for="email") Correo electrónico
+                input#email.form-control(type="email" name="email" placeholder="Ingresa tu correo electrónico" required)
+
+            .form-group
+                label(for="password") Contraseña
+                input#password.form-control(type="password" name="password" placeholder="Ingresa tu contraseña" required)
+
+            .form-group
+                label(for="confirm-password") Confirmar contraseña
+                input#confirm-password.form-control(type="password" name="confirm-password" placeholder="Confirma tu contraseña" required)
+            
+            button.btn-register.btn-primary(type="submit") Registrarse
+
+    script(src="js/recoverDatesRegister.js") 
