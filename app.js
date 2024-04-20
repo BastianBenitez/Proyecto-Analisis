@@ -28,9 +28,10 @@ app.get('/', tournamentControllers.getAllTournaments)
 
 // Ruta para renderizar la vista de registro.
 app.get('/register', userControllers.renderRegister);
-
-// Ruta para manejar el registro de un nuevo un usuario.
 app.post('/register', userControllers.userRegister);
+
+app.get('/login', userControllers.renderlogin)
+app.post('/login', userControllers.userlogin)
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{

@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
   
         const data = await response.json();
+
+        if (data.redirect){
+          window.location.href = data.redirect;
+          console.log('hola')
+        }
   
         if (data.success) {
           //alert('Registro exitoso');
