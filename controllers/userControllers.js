@@ -7,23 +7,27 @@ const renderRegister = (req, res) => {
 
 // Maneja el registro de un nuevo usuario
 const userRegister = async (req, res) => {
+  // Optencion de las variables del formulario de registro.
   const { username, email, password } = req.body;
-  console.log(username);
-  console.log(email);
-  console.log(password);
 
   try {
-    
-    const query = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
-    const result = await connection.query(query, [email]);
- 
-    if (result[0][0].count === 1) {
-        return res.status(400).json({ success: false, message: 'El correo electrónico ya está registrado' });
+    // Consulta a la base de datos
+    const queryuser = "SELECT COUNT(*) AS count FROM usuarios WHERE userName = ?";
+    const resultuser = await connection.query(queryuser, [username]);
+
+    const queryemail = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
+    const resultemail = await connection.query(queryemail, [email]);
+
+    // Verificacion de duplicado en el username y email
+    if (resultuser[0][0].count === 1) {
+        return res.status(400).json({ success: false, message: 'El nombre de usuario ya está registrado' });
+      }else if (resultemail[0][0].count === 1){
+        return res.status(400).json({ success: false, message: 'El correo electronico ya está registrado' });
       }
     
     // Inserta un nuevo usuario en la base de datos
     const insertQuery = 'INSERT INTO usuarios (userName, password, email) VALUES (?, ?, ?)';
-    await connection.query(insertQuery, [username, email, password]);
+    await connection.query(insertQuery, [username, password, email]);
 
     res.status(201).json({ success: true, message: 'Usuario registrado exitosamente' });
 

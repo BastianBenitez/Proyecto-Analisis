@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .register-container
+    #register-container
         h2 Registro
         form(action="/register" method="post")
             .form-group
@@ -19,7 +19,7 @@ block content
             .form-group
                 label(for="confirm-password") Confirmar contraseña
                 input#confirm-password.form-control(type="password" name="confirm-password" placeholder="Confirma tu contraseña" required)
-            
+            p(class="hidden" id="alert")
             button.btn-register.btn-primary(type="submit") Registrarse
 
     script(src="js/recoverDatesRegister.js") 
