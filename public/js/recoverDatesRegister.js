@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (data.success) {
           alert('Registro exitoso');
-          // Aquí puedes redirigir al usuario a otra página o realizar otras acciones
+          // Aqui puedes redirigir al usuario a otra página o realizar otras acciones
         } else {
           alert(data.message || 'Error en el registro');
         }

@@ -16,16 +16,14 @@ const userRegister = async (req, res) => {
     
     const query = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
     const result = await connection.query(query, [email]);
-    
-    console.log(result[0].count);
-
-    if (coincidences[0].count === 0) {
+ 
+    if (result[0][0].count === 1) {
         return res.status(400).json({ success: false, message: 'El correo electrónico ya está registrado' });
       }
     
     // Inserta un nuevo usuario en la base de datos
-    //const insertQuery = 'INSERT INTO usuarios (userName, password, email) VALUES (?, ?, ?)';
-    //await connection.query(insertQuery, [username, email, password]);
+    const insertQuery = 'INSERT INTO usuarios (userName, password, email) VALUES (?, ?, ?)';
+    await connection.query(insertQuery, [username, email, password]);
 
     res.status(201).json({ success: true, message: 'Usuario registrado exitosamente' });
 
@@ -35,6 +33,5 @@ const userRegister = async (req, res) => {
   }
 
 };
-
 
 export default { renderRegister, userRegister };
