@@ -101,7 +101,7 @@ const userlogin = async (req, res) => {
             paht:"/"
           }
           res.cookie('MTSLCM', token, cookieoptions)
-          return res.status(201).json({ success: true, message: 'Loging completo' });// se deve de agregar una redireccion
+          return res.status(201).json({ success: true, message: 'Loging completo' });// se debe de agregar una redireccion
         }else{
           return res.status(400).json({ success: false, message: 'El correo y/o contraseña son incorrectas' });
         }
