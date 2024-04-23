@@ -1,5 +1,9 @@
 import connection from '../config/connectionDB.js';
 import bcryptjs from 'bcryptjs'
+import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Funcion encargada de detectar codigo html
 function noHTML(str) {
@@ -67,22 +71,45 @@ const userlogin = async (req, res) => {
   // Optencion de las variables del formulario de registro.
   const {email, password} = req.body;
 
+  if (!email || !password){
+    return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
+  }
+
   try {
     // Consulta a la base de datos
-    const queryemail = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
-    const resultemail = await connection.query(queryemail, [email]);
+    const query = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
+    const result = await connection.query(query, [email]);
 
     // Verificacion de duplicado en el username y email
-    if (resultemail[0][0].count === 0){
+    if (result[0][0].count === 0){
       return res.status(400).json({ success: false, message: 'El correo electronico no está registrado' });
+    }else{
+      try{
+        const querygetuser = "SELECT userName, email, password FROM usuarios WHERE email = ?;";
+        const resultuser = await connection.query(querygetuser, [email])
+
+        const logoncorrect = await bcryptjs.compare(password, resultuser[0][0].password)
+        if(logoncorrect){
+
+          const token = jsonwebtoken.sign({ 
+            user:resultuser[0][0].userName }, 
+            process.env.MTSLCM_ENCODER, 
+            {expiresIn:process.env.MTSLCM_TIME_EXPIRED})
+          
+          const cookieoptions = {
+            expires: new Date(Date.now() + process.env.MTSLCM_COOKIE_EXPIRED *24*60*60*1000),
+            paht:"/"
+          }
+          res.cookie('MTSLCM', token, cookieoptions)
+          return res.status(201).json({ success: true, message: 'Loging completo' });// se deve de agregar una redireccion
+        }else{
+          return res.status(400).json({ success: false, message: 'El correo y/o contraseña son incorrectas' });
+        }
+      }catch(error){
+        console.log(error)
+        return res.status(400).json({ success: false, message: 'No se pudo verifcar los datos, intentelo mas tarde' });
+      } 
     }
-    
-    // Inserta un nuevo usuario en la base de datos
-    const insertQuery = 'INSERT INTO usuarios (userName, password, email) VALUES (?, ?, ?)';
-    await connection.query(insertQuery, [username, password, email]);
-
-    res.status(201).json({ success: true, message: 'Loging completo' });
-
   } catch (error) {
     console.error('Error en el registro:', error);
     res.status(500).json({ success: false, message: 'Error al iniciar sesion, por favor intenta de nuevo' });

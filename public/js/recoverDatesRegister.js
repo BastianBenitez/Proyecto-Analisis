@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const confirmPassword = document.getElementById('confirm-password').value;
   
       if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden');
         document.getElementById("alert").className = "error";
         document.getElementById("alert").innerText = "Las contraseñas no coinciden"
         
@@ -34,19 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
   
         if (data.success) {
-          //alert('Registro exitoso');
           document.getElementById("alert").className = "correct";
           document.getElementById("alert").innerText = "Registro exitoso"
-          // Aqui puedes redirigir al usuario a otra página o realizar otras acciones
         } else {
-          //alert(data.message || 'Error en el registro');
           document.getElementById("alert").className = "error";
           document.getElementById("alert").innerText = data.message || 'Error en el registro'
           return
         }
       } catch (error) {
         console.error('Error al registrar:', error);
-        //alert('Error al registrar, por favor intenta de nuevo');
         document.getElementById("alert").className = "error";
         document.getElementById("alert").innerText = "Error al registrar, por favor intenta de nuevo"
       }
