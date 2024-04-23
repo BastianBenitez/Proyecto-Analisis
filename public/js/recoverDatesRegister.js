@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       if (password !== confirmPassword) {
         document.getElementById("alert").className = "error";
-        document.getElementById("alert").innerText = "Las contraseñas no coinciden"
+        document.getElementById("alert").innerText = "Las contraseñas no coinciden";
         
         return;
       }
@@ -22,28 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username, email, password }),
+          body: JSON.stringify({ username, email, password })
         });
   
         const data = await response.json();
 
         if (data.redirect){
           window.location.href = data.redirect;
-          console.log('hola')
         }
   
         if (data.success) {
           document.getElementById("alert").className = "correct";
-          document.getElementById("alert").innerText = "Registro exitoso"
+          document.getElementById("alert").innerText = "Registro exitoso";
         } else {
           document.getElementById("alert").className = "error";
-          document.getElementById("alert").innerText = data.message || 'Error en el registro'
-          return
+          document.getElementById("alert").innerText = data.message || 'Error en el registro';
+          return;
         }
       } catch (error) {
         console.error('Error al registrar:', error);
         document.getElementById("alert").className = "error";
-        document.getElementById("alert").innerText = "Error al registrar, por favor intenta de nuevo"
+        document.getElementById("alert").innerText = "Error al registrar, por favor intenta de nuevo";
       }
     });
   });

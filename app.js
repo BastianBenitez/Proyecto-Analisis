@@ -3,9 +3,10 @@ import cors from 'cors';
 import morgan from 'morgan'
 import helmet from 'helmet';
 
-//importacion de los contrladores de usuarios
+//importacion de los controladores.
 import tournamentControllers from './controllers/tournamentControllers.js';
 import userControllers from './controllers/userControllers.js';
+import authorization from './middlewares/authorization.js';
 
 const app  = express();
 const port = 3000
@@ -26,12 +27,14 @@ app.use(express.urlencoded({extended: false}));
 // Ruta principal.
 app.get('/', tournamentControllers.getAllTournaments)
 
-// Ruta para renderizar la vista de registro.
-app.get('/register', userControllers.renderRegister);
-app.post('/register', userControllers.userRegister);
+// Ruta.
+app.get('/register', authorization.onlyNoLogin, userControllers.renderRegister);
+app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 
-app.get('/login', userControllers.renderlogin)
-app.post('/login', userControllers.userlogin)
+app.get('/login', authorization.onlyNoLogin, userControllers.renderlogin)
+app.post('/login', authorization.onlyNoLogin, userControllers.userlogin)
+
+app.get('/record', authorization.onlyLogin, (req, res)=>{res.render('record')})
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{

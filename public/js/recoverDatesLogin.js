@@ -13,23 +13,23 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password })
         });
   
         const data = await response.json();
   
         if (!data.success) {
           document.getElementById("alert").className = "error";
-          document.getElementById("alert").innerText = data.message || 'Error al iniciar sesion'
+          document.getElementById("alert").innerText = data.message || 'Error al iniciar sesion';
         }else{
           document.getElementById("alert").className = "correct";
-          document.getElementById("alert").innerText = data.message
-          return
+          document.getElementById("alert").innerText = data.message;
+          return;
         }
       } catch (error) {
         console.error('Error al registrar:', error);
         document.getElementById("alert").className = "error";
-        document.getElementById("alert").innerText = "Error al iniciar sesion, por favor intenta de nuevo"
+        document.getElementById("alert").innerText = "Error al iniciar sesion, por favor intenta de nuevo";
       }
     });
   });
