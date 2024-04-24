@@ -1,8 +1,5 @@
 import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-import authorization from '../middlewares/authorization.js';
 
 const getAllTournaments = async (req, res) => {
     const query = "SELECT torneosId, nombreTorneo, descripcion, DATE_FORMAT(fechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(fechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, organizadorId, resultadoTorneo FROM torneos";
@@ -27,10 +24,7 @@ const getTournamentsByCreator = async (req, res) => {
     try {
         
         const [resultuser] = await connection.query(queryuser, [decoded.user]);
-        console.log(resultuser)
-        console.log(resultuser[0].userId)
         const [results] = await connection.query(query, [resultuser[0].userId]);
-        console.log(results)
         if (results.length === 0) {
             status = false
         }else{
