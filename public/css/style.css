@@ -1,176 +1,213 @@
-/* Estilos generales */
-html {
-  font-size: 16px;
-}
-
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  background-color: #f5f5f5;
-  font-family: sans-serif;
-  color: #333;
-  line-height: 1.6;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  background-color: #100E1A;
+  color: white;
 }
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* Encabezado y navegación */
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 100%;
 }
 
-nav ul {
+.menu {
+  width: 75px;
+  background-color: #222032;
+  color: white;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+  position: fixed;
+}
+
+.menu ul {
   list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+  width: 100%;
 }
 
-nav li {
-  margin-left: 20px;
+.menu ul li {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
+.menu ul li a {
+  display: block;
+  padding: 10px;
 }
 
-/* Sección de héroe */
-#hero {
-  background-size: cover;
-  background-position: center;
-  text-align: center;
-  padding: 100px;
+.menu ul li a:hover {
+  background-color: #9B50E1;
 }
 
-#hero h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
+.menu ul li a img {
+  width: 32px;
+  display: block;
+  margin: 0 auto;
 }
 
-#hero p {
-  font-size: 18px;
-  margin-bottom: 40px;
-}
-
-.btn {
-  background-color: #ff6600;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-/* Productos destacados */
-#featured {
-  padding: 50px;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-}
-
-.product {
-  max-width: 300px;
-  height: auto;
-}
-
-.product img {
-  max-width: 100%;
-  height: auto;
-}
-
-.product h3 {
-  margin-top: 10px;
-}
-
-/* Pie de página */
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
+.content {
+  flex: 1;
   padding: 20px;
+  box-sizing: border-box;
+  height: 100%;
+  margin-left: 100px;
 }
 
-/* Registro */
+/* ESTILO DE FORMULARIOS */
+
 #register-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #222032;
 }
 
-#register-container h2 {
+h1, h2, h3 {
+  color: white;
+}
+
+h1 {
+  font-size: 32px; /* Tamaño aumentado para h1 */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px; /* Tamaño aumentado para h2 */
   text-align: center;
   margin-bottom: 20px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
+  color: white;
 }
 
-.form-control {
-  width: 100%;
+input.form-control {
+  width: 380px;
   padding: 10px;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 16px;
+  background-color: #222032;
+  color: #fff;
+  margin-right: 20px;
 }
 
-.btn-register {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.hidden{
+.hidden {
   display: none;
 }
 
-.error{
-  color: rgb(250, 46, 46);
-  text-align: center;
-  
+button.btn-register {
+  width: 400px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #9B50E1;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.correct{
-  text-align: center;
-  color: rgb(84, 187, 84);
-  margin-bottom: 10px;
+button.btn-register:hover {
+  background-color: #8a45d7;
 }
+
+/* MOSTRAR TORNEOS/ VISTA PRINCIPAL */
+
+#hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+#hero h1 {
+  margin-top: 20px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #9B50E1;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #8a45d7;
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.product {
+  flex: 1;
+  min-width: 300px;
+  max-width: 391px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #222032;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.product h3 {
+  margin-top: 20px;
+}
+
+.product p {
+  margin: 5px 0;
+  font-size: 14px; 
+  line-height: 1.5; 
+}
+
+.product a.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #9B50E1;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.product a.btn:hover {
+  background-color: #8a45d7;
+}
+
+/*TOURNEMENTS*/
+
+.vacio{
+  margin: 0 auto;
+}
+

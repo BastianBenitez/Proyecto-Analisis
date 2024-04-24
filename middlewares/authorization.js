@@ -46,4 +46,4 @@ async function tokenAuthorization (req){
 };
 
 
-export default { onlyLogin, onlyNoLogin };
+export default { onlyLogin, onlyNoLogin, tokenAuthorization };

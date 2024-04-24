@@ -3,20 +3,33 @@ html(lang="es")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title= title
-        link(rel="stylesheet", href="css/style.css")
-    body 
-        header
-            nav
-                a(href="#")
-                    img(src="", alt="Logo del Sitio")
+        title Menú Lateral
+        link(rel="stylesheet", href="css/Style.css")
+    body
+        .container
+            .menu
                 ul
-                    li: a(href="#") Inicio
-                    li: a(href="#") Acerca de
-                    li: a(href="#") Servicios
-                    li: a(href="#") Contacto
-        section#featured
-            block content
-    footer
-      p &copy; Nombre del Sitio Web
+                    li
+                        a(href="/")
+                            img(src="img/home.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/trofeo.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/sobre.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/tiempo-pasado.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/calendario-reloj.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/ajustes-deslizadores.png", alt="")
+                    li
+                        a(href="#inicio")
+                            img(src="img/salida.png", alt="")
+            .content
+                block content
     script(src='js/main.js', type='module')

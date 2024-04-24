@@ -34,7 +34,7 @@ app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 app.get('/login', authorization.onlyNoLogin, userControllers.renderlogin)
 app.post('/login', authorization.onlyNoLogin, userControllers.userlogin)
 
-app.get('/record', authorization.onlyLogin, (req, res)=>{res.render('record')})
+app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator)
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{

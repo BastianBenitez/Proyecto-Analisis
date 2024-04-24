@@ -2,12 +2,9 @@ extends layout
 
 block content 
     main
-        section#hero
-            h1 Bienvenido a Nombre del Sitio Web
-            p Descripción breve del sitio web y lo que ofrece
-            a(href="#", class="btn") Conoce más
-            h1 Toneos
-                .product-grid
+        h1 MIS TORNEOS
+            .product-grid
+                if status
                     each el in results 
                         .product
                             div
@@ -17,4 +14,6 @@ block content
                                 p Inicio: #{el.fechaInicioLegible} 
                                 p Termino: #{el.fechaTerminoLegible}
                             a(href="#", class="btn") Más información
-                    
+                else
+                    h3.vacio No posee torneos inscritos
+                        
