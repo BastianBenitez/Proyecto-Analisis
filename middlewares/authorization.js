@@ -32,7 +32,7 @@ async function tokenAuthorization (req){
         const token = cookieMTSLCM.slice(7);
         const decoded = jsonwebtoken.verify(token, process.env.MTSLCM_ENCODER);
 
-        const query = "SELECT COUNT(*) AS count FROM usuarios WHERE userName = ?";
+        const query = "SELECT COUNT(*) AS count FROM usuarios WHERE NombreUsuario = ?";
         const result = await connection.query(query, [decoded.user]);
 
         if (result[0][0].count === 1 && decoded.exp - decoded.iat > 0) {

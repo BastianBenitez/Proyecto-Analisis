@@ -15,6 +15,7 @@ body {
   height: 100%;
 }
 
+/* MENU */
 .menu {
   width: 75px;
   background-color: #222032;
@@ -60,7 +61,6 @@ body {
 }
 
 /* ESTILO DE FORMULARIOS */
-
 #register-container {
   max-width: 400px;
   margin: 50px auto;
@@ -75,13 +75,13 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 32px; /* Tamaño aumentado para h1 */
+  font-size: 32px;
   text-align: center;
   margin-bottom: 20px;
 }
 
 h2 {
-  font-size: 28px; /* Tamaño aumentado para h2 */
+  font-size: 28px;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -105,7 +105,7 @@ input.form-control {
   font-size: 16px;
   background-color: #222032;
   color: #fff;
-  margin-right: 20px;
+  margin-bottom: 20px; /* ajuste para espaciar los campos */
 }
 
 .hidden {
@@ -113,7 +113,7 @@ input.form-control {
 }
 
 button.btn-register {
-  width: 400px;
+  width: 100%; /* ancho al 100% para ocupar todo el contenedor */
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -121,14 +121,29 @@ button.btn-register {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  margin-bottom: 20px; /* añadir espacio inferior */
 }
 
 button.btn-register:hover {
   background-color: #8a45d7;
 }
 
-/* MOSTRAR TORNEOS/ VISTA PRINCIPAL */
+/* Estilo para el párrafo y el enlace de registro */
+#register-container p {
+  text-align: center; /* centrar el texto */
+  margin-bottom: 20px; /* añadir espacio inferior */
+}
 
+#register-container p a {
+  color: #9B50E1; /* cambiar el color del enlace */
+  text-decoration: none; /* quitar subrayado */
+}
+
+#register-container p a:hover {
+  text-decoration: underline; /* subrayar al pasar el ratón */
+}
+
+/* MOSTRAR TORNEOS/ VISTA PRINCIPAL */
 #hero {
   text-align: center;
   margin-bottom: 50px;
@@ -154,16 +169,19 @@ button.btn-register:hover {
 }
 
 .product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product {
   flex: 1;
   min-width: 300px;
-  max-width: 391px;
+  max-width: 348px;
   margin: 20px;
   padding: 20px;
   border-radius: 8px;
@@ -186,8 +204,8 @@ button.btn-register:hover {
 
 .product p {
   margin: 5px 0;
-  font-size: 14px; 
-  line-height: 1.5; 
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .product a.btn {
@@ -205,9 +223,7 @@ button.btn-register:hover {
   background-color: #8a45d7;
 }
 
-/*TOURNEMENTS*/
-
-.vacio{
+/* TOURNEMENTS */
+.vacio {
   margin: 0 auto;
 }
-

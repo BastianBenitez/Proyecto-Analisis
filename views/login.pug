@@ -12,7 +12,9 @@ block content
                 label(for="password") Contraseña
                 input#password.form-control(type="password" name="password" placeholder="Ingresa tu contraseña" required)
 
-            p(class="hidden" id="alert")
             button.btn-register.btn-primary(type="submit") Iniciar sesion
+            p   Si no tienes cuenta 
+                a(href="/register") Registrate
+            p(class="hidden" id="alert")
 
     script(src="js/recoverDatesLogin.js")

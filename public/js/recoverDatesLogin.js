@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
   
         const data = await response.json();
+
+        if (data.redirect){
+          window.location.href = data.redirect;
+        }
   
         if (!data.success) {
           document.getElementById("alert").className = "error";

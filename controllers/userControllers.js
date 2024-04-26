@@ -37,10 +37,10 @@ const userRegister = async (req, res) => {
 
   try {
     // Consulta a la base de datos.
-    const queryuser = "SELECT COUNT(*) AS count FROM usuarios WHERE userName = ?";
+    const queryuser = "SELECT COUNT(*) AS count FROM usuarios WHERE NombreUsuario = ?";
     const resultuser = await connection.query(queryuser, [username]);
 
-    const queryemail = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
+    const queryemail = "SELECT COUNT(*) AS count FROM usuarios WHERE CorreoElectronico = ?";
     const resultemail = await connection.query(queryemail, [email]);
 
     // Verificacion de duplicado en el username y email
@@ -55,7 +55,7 @@ const userRegister = async (req, res) => {
     const hashPassword = await bcryptjs.hash(password, salt)
 
     // Inserta un nuevo usuario en la base de datos
-    const insertQuery = 'INSERT INTO usuarios (userName, password, email) VALUES (?, ?, ?)';
+    const insertQuery = 'INSERT INTO usuarios (NombreUsuario, Contrasena, CorreoElectronico) VALUES (?, ?, ?)';
     await connection.query(insertQuery, [username, hashPassword, email]);
 
     return res.status(201).json({ success: true, message: 'Usuario registrado exitosamente', redirect:"/login"});
@@ -77,7 +77,7 @@ const userlogin = async (req, res) => {
 
   try {
     // Consulta a la base de datos
-    const query = "SELECT COUNT(*) AS count FROM usuarios WHERE email = ?";
+    const query = "SELECT COUNT(*) AS count FROM usuarios WHERE CorreoElectronico = ?";
     const result = await connection.query(query, [email]);
 
     // Verificacion de duplicado en el username y email
@@ -85,7 +85,7 @@ const userlogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'El correo electronico no está registrado' });
     }else{
       try{
-        const querygetuser = "SELECT userName, email, password FROM usuarios WHERE email = ?;";
+        const querygetuser = "SELECT NombreUsuario, CorreoElectronico, Contrasena FROM usuarios WHERE CorreoElectronico = ?;";
         const resultuser = await connection.query(querygetuser, [email])
 
         const logoncorrect = await bcryptjs.compare(password, resultuser[0][0].password)
@@ -101,7 +101,7 @@ const userlogin = async (req, res) => {
             paht:"/"
           }
           res.cookie('MTSLCM', token, cookieoptions)
-          return res.status(201).json({ success: true, message: 'Loging completo', redirect:"/"});// se debe de agregar una redireccion
+          return res.status(201).json({ success: true, message: 'Loging completo', redirect:"/"});
         }else{
           return res.status(400).json({ success: false, message: 'El correo y/o contraseña son incorrectas' });
         }

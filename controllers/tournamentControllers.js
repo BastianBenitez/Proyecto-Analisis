@@ -1,20 +1,26 @@
 import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
+import authorization from '../middlewares/authorization.js';
 
 const getAllTournaments = async (req, res) => {
-    const query = "SELECT torneosId, nombreTorneo, descripcion, DATE_FORMAT(fechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(fechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, organizadorId, resultadoTorneo FROM torneos";
+    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorID, ResultadoTorneo FROM torneos";
+    const validationtoken = await authorization.tokenAuthorization(req);
+
     
     try {
         const [results] = await connection.query(query);
-        res.render('index.pug', { title: 'Torneos', results });
+        if (!validationtoken){
+            return res.render('index.pug', { title: 'Torneos', results, statuslogin: false });
+        }
+        return res.render('index.pug', { title: 'Torneos', results, statuslogin: true });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error interno del servidor');
+        return res.status(500).send('Error interno del servidor');
     }
 };
 
 const getTournamentsByCreator = async (req, res) => {
-    const query = "SELECT torneosId, nombreTorneo, descripcion, DATE_FORMAT(fechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(fechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, organizadorId, resultadoTorneo FROM torneos WHERE organizadorId = ? ORDER BY fechaInicio ASC";
+    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE RrganizadorID = ? ORDER BY FechaInicio ASC";
     const queryuser = 'SELECT userId FROM usuarios WHERE userName = ?'
     let status;
 
