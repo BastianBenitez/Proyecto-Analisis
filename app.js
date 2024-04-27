@@ -31,8 +31,8 @@ app.get('/', tournamentControllers.getAllTournaments)
 app.get('/register', authorization.onlyNoLogin, userControllers.renderRegister);
 app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 
-app.get('/login', authorization.onlyNoLogin, userControllers.renderlogin)
-app.post('/login', authorization.onlyNoLogin, userControllers.userlogin)
+app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin)
+app.post('/login', authorization.onlyNoLogin, userControllers.userLogin)
 
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator)
 
