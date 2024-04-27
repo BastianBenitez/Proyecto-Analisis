@@ -22,20 +22,26 @@ const getAllTournaments = async (req, res) => {
 const getTournamentsByCreator = async (req, res) => {
     const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
     const queryuser = 'SELECT UserID FROM usuarios WHERE NombreUsuario = ?'
+    let status;
     let statuslogin;
 
     const cookieMTSLCM = req.headers.cookie.split('; ').find(cookie => cookie.startsWith('MTSLCM=')).slice(7);
     const decoded = jsonwebtoken.verify(cookieMTSLCM, process.env.MTSLCM_ENCODER);
+    if(decoded){
+        statuslogin = true
+    }else{
+        statuslogin = false
+    }
 
     try {
         const [resultuser] = await connection.query(queryuser, [decoded.user]);
         const [results] = await connection.query(query, [resultuser[0].UserID]);
         if (results.length === 0) {
-            statuslogin = true
+            status = false
         }else{
-            statuslogin = false
+            status = true
         }
-        res.render('tournaments.pug', { title: 'Torneos', results, statuslogin });
+        res.render('tournaments.pug', { title: 'Torneos', results, status, statuslogin });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor');
