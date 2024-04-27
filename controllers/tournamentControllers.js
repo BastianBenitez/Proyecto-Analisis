@@ -20,23 +20,21 @@ const getAllTournaments = async (req, res) => {
 };
 
 const getTournamentsByCreator = async (req, res) => {
-    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE RrganizadorID = ? ORDER BY FechaInicio ASC";
-    const queryuser = 'SELECT userId FROM usuarios WHERE userName = ?'
+    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
+    const queryuser = 'SELECT UserID FROM usuarios WHERE NombreUsuario = ?'
     let status;
 
     const cookieMTSLCM = req.headers.cookie.split('; ').find(cookie => cookie.startsWith('MTSLCM=')).slice(7);
     const decoded = jsonwebtoken.verify(cookieMTSLCM, process.env.MTSLCM_ENCODER);
 
     try {
-        
         const [resultuser] = await connection.query(queryuser, [decoded.user]);
-        const [results] = await connection.query(query, [resultuser[0].userId]);
+        const [results] = await connection.query(query, [resultuser[0].UserID]);
         if (results.length === 0) {
             status = false
         }else{
             status = true
         }
-        console.log(status)
         res.render('tournaments.pug', { title: 'Torneos', results, status });
     } catch (error) {
         console.error(error);
