@@ -88,7 +88,7 @@ const userlogin = async (req, res) => {
         const querygetuser = "SELECT NombreUsuario, CorreoElectronico, Contrasena FROM usuarios WHERE CorreoElectronico = ?;";
         const resultuser = await connection.query(querygetuser, [email])
 
-        const logoncorrect = await bcryptjs.compare(password, resultuser[0][0].password)
+        const logoncorrect = await bcryptjs.compare(password, resultuser[0][0].Contrasena)
         if(logoncorrect){
 
           const token = jsonwebtoken.sign({ 
