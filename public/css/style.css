@@ -226,4 +226,7 @@ button.btn-register:hover {
 /* TOURNEMENTS */
 .vacio {
   margin: 0 auto;
+  font-size: 30px;
+  text-align: center;
+  color: rgb(240, 67, 67);
 }

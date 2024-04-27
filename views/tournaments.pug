@@ -1,10 +1,9 @@
 extends layout
 
 block content 
-    main
-        h1 MIS TORNEOS
-            .product-grid
-                if status
+    h1 MIS TORNEOS
+            if status
+                .product-grid
                     each el in results 
                         .product
                             div
@@ -14,6 +13,6 @@ block content
                                 p Inicio: #{el.fechaInicioLegible} 
                                 p Termino: #{el.fechaTerminoLegible}
                             a(href="#", class="btn") Más información
-                else
-                    h3.vacio No posee torneos inscritos
+            else
+                h3.vacio No posee torneos inscritos
                         
