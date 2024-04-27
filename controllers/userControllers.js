@@ -92,7 +92,7 @@ const userlogin = async (req, res) => {
         if(logoncorrect){
 
           const token = jsonwebtoken.sign({ 
-            user:resultuser[0][0].userName }, 
+            user:resultuser[0][0].NombreUsuario }, 
             process.env.MTSLCM_ENCODER, 
             {expiresIn:process.env.MTSLCM_TIME_EXPIRED})
           
