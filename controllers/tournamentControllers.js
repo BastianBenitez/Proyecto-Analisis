@@ -35,4 +35,30 @@ const getTournamentsByCreator = async (req, res) => {
     }
 };
 
-export default { getAllTournaments, getTournamentsByCreator };
+const getDetailsTournaments = async (req, res) => {
+    const tornoeID = req.params.id;
+    const queryTournament = 'SELECT * FROM torneos WHERE TorneoID = ?';
+    const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ?';
+    const queryDriversAndNames = `
+        SELECT participantes.UsuarioID, usuarios.NombreUsuario
+        FROM participantes
+        INNER JOIN usuarios ON participantes.UsuarioID = usuarios.userID
+        WHERE participantes.TorneoID = ?
+    `;
+
+    try {
+        const [[tournamentResult]] = await connection.query(queryTournament, [tornoeID]);
+        const [racesResult] = await connection.query(queryRaces, [tornoeID]);
+        const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
+
+        res.render('detailsTournaments',{ tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
+        console.log({ tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
+    } catch(error) {
+        console.log(error);
+        res.status(500).send("Error interno del servidor");
+    }
+};
+
+
+
+export default { getAllTournaments, getTournamentsByCreator, getDetailsTournaments };
