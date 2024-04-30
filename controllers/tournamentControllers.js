@@ -51,7 +51,7 @@ const getDetailsTournaments = async (req, res) => {
         const [racesResult] = await connection.query(queryRaces, [tornoeID]);
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
 
-        res.render('detailsTournaments',{ tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
+        res.render('detailsTournaments.pug',{ tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
         console.log({ tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
     } catch(error) {
         console.log(error);
