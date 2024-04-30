@@ -31,10 +31,11 @@ app.get('/', tournamentControllers.getAllTournaments)
 app.get('/register', authorization.onlyNoLogin, userControllers.renderRegister);
 app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 
-app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin)
-app.post('/login', authorization.onlyNoLogin, userControllers.userLogin)
+app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin);
+app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 
-app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator)
+app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator);
+app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{
