@@ -23,7 +23,7 @@ const getDetailMyTeam = async (req, res) => {
 const getMyTeams = async (req, res) => {
     const userID = req.params.id;
     const queryUser = 'SELECT EquipoID FROM miembros_equipo WHERE UsuarioID = ?';
-    const queryTeam = 'SELECT * FROM equipos WHERE ';
+    const queryTeam = 'SELECT Nombre, Descripcion FROM equipos WHERE ';
 
     try {
         const [userResult] = await connection.query(queryUser, [userID]);
@@ -38,7 +38,6 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        console.log(teamResult)
         res.send(teamResult);
 
     } catch (error) {
