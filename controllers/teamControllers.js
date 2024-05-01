@@ -15,7 +15,7 @@ const getDetailMyTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
-        return res.status(200).render('myteams.pug', { teamDetail, statuslogin: true });
+        return res.status(200).render('myteam.pug', { teamDetail, statuslogin: true });
     }catch(error){
         console.log(error);
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
@@ -39,7 +39,6 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        console.log(teamResult);
         return res.status(200).render('team', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
