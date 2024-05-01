@@ -15,9 +15,10 @@ const getDetailMyTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
-        res.send({ teamDetail, statuslogin: true });
+        return res.status(200).render('myteams.pug', { teamDetail, statuslogin: true });
     }catch(error){
         console.log(error);
+        return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
     }
 };
 
@@ -28,12 +29,10 @@ const getMyTeams = async (req, res) => {
 
     try {
         const [userResult] = await connection.query(queryUser, [userID.UserID]);
-        console.log(userResult)
         const equiposIDs = userResult.map(row => row.EquipoID);
 
         if (equiposIDs.length === 0) {
-            res.status(404).send("El usuario no está asociado a ningún equipo.");
-            return;
+            return res.status(404).send("El usuario no está asociado a ningún equipo.");
         }
 
         let condiciones = equiposIDs.map(id => `EquipoID = ${id}`).join(' OR ');
@@ -41,11 +40,11 @@ const getMyTeams = async (req, res) => {
 
         const [teamResult] = await connection.query(consultaCompleta);
         console.log(teamResult);
-        res.render('team', { teamResult , status: true, statuslogin: true });
+        return res.status(200).render('team', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);
-        res.status(500).send("Hubo un error al obtener los equipos del usuario.");
+        return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
     }
 };
 
