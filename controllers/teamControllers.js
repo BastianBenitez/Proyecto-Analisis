@@ -46,6 +46,14 @@ const getMyTeams = async (req, res) => {
     }
 };
 
+const creationNewTeam = async (req, res) => {
+
+}
+
+const editTeam = async (req, res) => {
+
+}
 
 
-export default { getMyTeams, getDetailMyTeam }
+
+export default { getMyTeams, getDetailMyTeam, creationNewTeam, editTeam }
