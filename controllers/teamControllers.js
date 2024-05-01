@@ -1,4 +1,5 @@
 import connection from '../config/connectionDB.js';
+import authorization from '../middlewares/authorization.js';
 
 const getDetailMyTeam = async (req, res) => {
     const teamID = req.params.id;
@@ -21,12 +22,13 @@ const getDetailMyTeam = async (req, res) => {
 };
 
 const getMyTeams = async (req, res) => {
-    const userID = req.params.id;
+    const userID = await authorization.getUserIDToken(req);
     const queryUser = 'SELECT EquipoID FROM miembros_equipo WHERE UsuarioID = ?';
-    const queryTeam = 'SELECT Nombre, Descripcion FROM equipos WHERE ';
+    const queryTeam = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE ';
 
     try {
-        const [userResult] = await connection.query(queryUser, [userID]);
+        const [userResult] = await connection.query(queryUser, [userID.UserID]);
+        console.log(userResult)
         const equiposIDs = userResult.map(row => row.EquipoID);
 
         if (equiposIDs.length === 0) {
@@ -38,7 +40,8 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        res.send(teamResult);
+        console.log(teamResult);
+        res.render('team', { teamResult , status: true });
 
     } catch (error) {
         console.log(error);
