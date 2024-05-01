@@ -38,7 +38,9 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator);
 app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
+app.get('/myteams/:id', authorization.onlyLogin, teamControllers.getMyTeams);
 app.get('/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
+
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{
