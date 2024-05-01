@@ -15,7 +15,7 @@ const getDetailMyTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
-        res.send(teamDetail);
+        res.send({ teamDetail, statuslogin: true });
     }catch(error){
         console.log(error);
     }
@@ -41,7 +41,7 @@ const getMyTeams = async (req, res) => {
 
         const [teamResult] = await connection.query(consultaCompleta);
         console.log(teamResult);
-        res.render('team', { teamResult , status: true });
+        res.render('team', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);

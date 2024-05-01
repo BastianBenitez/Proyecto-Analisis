@@ -24,7 +24,7 @@ const getTournamentsByUser = async (req, res) => {
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
-        res.render('tournaments.pug', { title: 'Torneos', results, status });
+        res.render('tournaments.pug', { title: 'Torneos', results, status, statuslogin: true });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor');
@@ -47,7 +47,7 @@ const getDetailsTournaments = async (req, res) => {
         const [racesResult] = await connection.query(queryRaces, [tornoeID]);
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
 
-        res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult });
+        res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, statuslogin: true });
     } catch(error) {
         console.log(error);
         res.status(500).send("Error interno del servidor");
