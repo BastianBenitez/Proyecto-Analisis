@@ -1,6 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import connection from '../config/connectionDB.js';
+import { query } from 'express';
 
 dotenv.config();
 
@@ -45,5 +46,18 @@ async function tokenAuthorization (req){
     }
 };
 
+async function getUserIDToken (req){
+    const cookieMTSLCM = req.headers.cookie.split('; ').find(cookie => cookie.startsWith('MTSLCM=')).slice(7);
+    const decoded = jsonwebtoken.verify(cookieMTSLCM, process.env.MTSLCM_ENCODER);
+    const query = 'SELECT UserID FROM usuarios WHERE NombreUsuario = ?';
 
-export default { onlyLogin, onlyNoLogin, tokenAuthorization };
+    try{
+        const [[result]] = await connection.query(query, [decoded.user]);
+        return result
+    }catch(error){
+        console.log(error)
+    };
+}
+
+
+export default { onlyLogin, onlyNoLogin, tokenAuthorization, getUserIDToken };
