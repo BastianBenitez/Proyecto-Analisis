@@ -35,10 +35,10 @@ app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin);
 app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 
-app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator);
+app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByUser);
 app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
-app.get('/myteams/:id', authorization.onlyLogin, teamControllers.getMyTeams);
+app.get('/myteams', authorization.onlyLogin, teamControllers.getMyTeams);
 app.get('/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
 
 app.get('/myteam/creation',authorization.onlyLogin, teamControllers.creationNewTeam);
