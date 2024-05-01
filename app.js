@@ -6,6 +6,7 @@ import helmet from 'helmet';
 //importacion de los controladores.
 import tournamentControllers from './controllers/tournamentControllers.js';
 import userControllers from './controllers/userControllers.js';
+import teamControllers from './controllers/teamControllers.js';
 import authorization from './middlewares/authorization.js';
 
 const app  = express();
@@ -36,6 +37,8 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByCreator);
 app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
+
+app.get('/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{
