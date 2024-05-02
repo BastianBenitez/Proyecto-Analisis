@@ -89,6 +89,10 @@ h2 {
 .form-group {
   margin-bottom: 15px;
 }
+.form-group-text {
+  margin-bottom: 15px;
+  height: 50px;
+}
 
 label {
   display: block;
@@ -99,6 +103,17 @@ label {
 
 input.form-control {
   width: 380px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #222032;
+  color: #fff;
+  margin-bottom: 20px; /* ajuste para espaciar los campos */
+}
+input.form-control-text {
+  width: 380px;
+  height: 50px;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;

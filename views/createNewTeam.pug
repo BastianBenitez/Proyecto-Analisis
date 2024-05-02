@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    #register-container
+        h2 Crea un nuevo equipo
+        form(action="/register" method="post")
+            .form-group
+                label(for="teamname") Nombre del equipo
+                input#teamname.form-control(type="text" name="teamname" placeholder="Ingresa el nombre del equipo" required)
+            
+            .form-group
+                label(for="description") Descripcion
+                input#description.form-control-text(type="text" name="description" placeholder="Ingresa una breve descripcion" required)
+
+            button.btn-register.btn-primary(type="submit") Registrar
+            p(class="hidden" id="alert")
+
+    script(src="js/recoverDatesTeam.js")
