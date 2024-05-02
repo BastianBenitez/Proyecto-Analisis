@@ -1,6 +1,8 @@
 import connection from '../config/connectionDB.js';
 import authorization from '../middlewares/authorization.js';
 
+const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
+
 const getDetailMyTeam = async (req, res) => {
     const teamID = req.params.id;
     const query = 'SELECT * FROM equipos WHERE EquipoID = ?';
@@ -33,7 +35,7 @@ const getMyTeams = async (req, res) => {
 
         if (equiposIDs.length === 0) {
             return res.status(404).send("El usuario no está asociado a ningún equipo.");
-        }
+        };
 
         let condiciones = equiposIDs.map(id => `EquipoID = ${id}`).join(' OR ');
         const consultaCompleta = queryTeam + condiciones;
@@ -47,9 +49,33 @@ const getMyTeams = async (req, res) => {
     }
 };
 
-const creationNewTeam = async (req, res) => {
+const creationNewTeamRender = (req, res) => res.status(200).render('createNewTeam.pug', { status: true, statuslogin: true });
 
-}
+const creationNewTeam = async (req, res) => {
+    const { name, description } = req.body
+
+    if (!name || !description) {
+        return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
+    } else if (name.length > 15) {
+        return res.status(400).json({ success: false, message: 'El nombre no puede tener una logitud superor a 15 caracteres' });
+    }else if(!noHTML(name) || !noHTML(description)){
+        return res.status(400).json({ success: false, message: 'Nombre o descripcion no validos' });
+    }
+
+    const userID = await authorization.getUserIDToken(req);
+    const query = 'INSERT INTO equipos (Nombre, Descripcion, CapitanID) VALUES (?, ?, ?)';
+
+    try{
+        const [nameCount] = await connection.query("SELECT COUNT(*) AS count FROM equipos WHERE Nombre = ?", [name]);
+        if (nameCount[0].count === 1) return res.status(400).json({ success: false, message: 'El nombre del equipo ya está registrado' });
+
+        await connection.query(query, [name, description, userID.UserID] )
+        return res.status(200).json({ success: true, message: 'Registro completado', redirect: '/myteams' });
+    }catch(erorr){
+        console.log(erorr);
+        return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
+    }
+};
 
 const editTeam = async (req, res) => {
 
@@ -57,4 +83,10 @@ const editTeam = async (req, res) => {
 
 
 
-export default { getMyTeams, getDetailMyTeam, creationNewTeam, editTeam }
+export default { 
+    getMyTeams, 
+    getDetailMyTeam, 
+    creationNewTeam, 
+    editTeam, 
+    creationNewTeamRender 
+}
