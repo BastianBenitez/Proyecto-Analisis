@@ -7,9 +7,9 @@ dotenv.config();
 
 const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
 
-const renderRegister = (req, res) => res.render('register.pug');
+const renderRegister = (req, res) => res.status(200).render('register.pug');
 
-const renderLogin = (req, res) => res.render('login.pug');
+const renderLogin = (req, res) => res.status(200).render('login.pug');
 
 const userRegister = async (req, res) => {
   const { username, email, password } = req.body;
