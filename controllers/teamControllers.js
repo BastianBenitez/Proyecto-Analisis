@@ -3,6 +3,15 @@ import authorization from '../middlewares/authorization.js';
 
 const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
 
+const teamRender = (req, res) => {
+    try{
+        res.status(200).render('team.pug', { status: true, statuslogin: true })
+    }catch(error){
+        console.log(error)
+        return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
+    }
+}
+
 const getDetailMyTeam = async (req, res) => {
     const teamID = req.params.id;
     const query = 'SELECT * FROM equipos WHERE EquipoID = ?';
@@ -17,7 +26,7 @@ const getDetailMyTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
-        return res.status(200).render('myteam.pug', { teamDetail, statuslogin: true });
+        return res.status(200).render('myteamdetails.pug', { teamDetail, status: true, statuslogin: true });
     }catch(error){
         console.log(error);
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
@@ -41,7 +50,7 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        return res.status(200).render('team', { teamResult , status: true, statuslogin: true });
+        return res.status(200).render('myteam.pug', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);
@@ -81,12 +90,11 @@ const editTeam = async (req, res) => {
 
 }
 
-
-
 export default { 
     getMyTeams, 
     getDetailMyTeam, 
     creationNewTeam, 
     editTeam, 
-    creationNewTeamRender 
+    creationNewTeamRender,
+    teamRender
 }

@@ -38,11 +38,13 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByUser);
 app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
-app.get('/myteams', authorization.onlyLogin, teamControllers.getMyTeams);
-app.get('/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
+app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
-app.get('/newteam',authorization.onlyLogin, teamControllers.creationNewTeamRender);
-app.post('/newteam',authorization.onlyLogin, teamControllers.creationNewTeam);
+app.get('/team/myteams', authorization.onlyLogin, teamControllers.getMyTeams);
+app.get('/team/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
+
+app.get('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeamRender);
+app.post('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeam);
 
 app.get('/myteam/edit',authorization.onlyLogin, teamControllers.editTeam);
 

@@ -1,1 +1,16 @@
 extends layout
+
+block content 
+    h1 EQUIPOS
+            if status
+                .product-grid
+                    each el in teamResult 
+                        .product
+                            div
+                                img(src="/img/img.jpeg", alt="img torneo 1")
+                                h2 #{el.Nombre}
+                                p #{el.Descripcion}
+                            a(href="/team/myteam/"+el.EquipoID, class="btn") Más información
+            else
+                h3.vacio No posee torneos inscritos
+                        
