@@ -40,8 +40,8 @@ app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDet
 
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
-app.get('/team/myteams', authorization.onlyLogin, teamControllers.getMyTeams);
-app.get('/team/myteam/:id', authorization.onlyLogin, teamControllers.getDetailMyTeam);
+app.get('/team/myteams', authorization.onlyLogin, teamControllers.getTeamsIParticipateIn);
+app.get('/team/myteam/:id', authorization.onlyLogin, teamControllers.getDetailTeam);
 
 app.get('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeamRender);
 app.post('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeam);

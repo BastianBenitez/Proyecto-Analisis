@@ -12,7 +12,7 @@ const teamRender = (req, res) => {
     }
 }
 
-const getDetailMyTeam = async (req, res) => {
+const getDetailTeam = async (req, res) => {
     const teamID = req.params.id;
     const query = 'SELECT * FROM equipos WHERE EquipoID = ?';
 
@@ -33,7 +33,7 @@ const getDetailMyTeam = async (req, res) => {
     }
 };
 
-const getMyTeams = async (req, res) => {
+const getTeamsIParticipateIn = async (req, res) => {
     const userID = await authorization.getUserIDToken(req);
     const queryUser = 'SELECT EquipoID FROM miembros_equipo WHERE UsuarioID = ?';
     const queryTeam = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE ';
@@ -57,6 +57,10 @@ const getMyTeams = async (req, res) => {
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
     }
 };
+
+const getMyTeams = async (req, res) => {
+
+}
 
 const creationNewTeamRender = (req, res) => res.status(200).render('createNewTeam.pug', { status: true, statuslogin: true });
 
@@ -92,9 +96,10 @@ const editTeam = async (req, res) => {
 
 export default { 
     getMyTeams, 
-    getDetailMyTeam, 
+    getDetailTeam, 
     creationNewTeam, 
     editTeam, 
     creationNewTeamRender,
-    teamRender
+    teamRender,
+    getTeamsIParticipateIn
 }
