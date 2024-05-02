@@ -59,7 +59,29 @@ const getTeamsIParticipateIn = async (req, res) => {
 };
 
 const getMyTeams = async (req, res) => {
+    const userID = await authorization.getUserIDToken(req);
+    const query = 'SELECT * FROM equipos WHERE CapitanID = ?';
+    const queryTeam = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE ';
 
+    try {
+        const [Result] = await connection.query(query, [userID.UserID]);
+        console.log(Result)
+        const equiposIDs = Result.map(row => row.EquipoID);
+
+        if (equiposIDs.length === 0) {
+            return res.status(404).send("El usuario no está asociado a ningún equipo.");
+        };
+
+        let condiciones = equiposIDs.map(id => `EquipoID = ${id}`).join(' OR ');
+        const consultaCompleta = queryTeam + condiciones;
+
+        const [teamResult] = await connection.query(consultaCompleta);
+        return res.status(200).render('myteam.pug', { teamResult , status: true, statuslogin: true });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
+    }
 }
 
 const creationNewTeamRender = (req, res) => res.status(200).render('createNewTeam.pug', { status: true, statuslogin: true });
