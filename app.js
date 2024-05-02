@@ -28,16 +28,19 @@ app.use(express.urlencoded({extended: false}));
 // Ruta principal.
 app.get('/', tournamentControllers.getAllTournaments)
 
-// Ruta.
+// Ruta registro.
 app.get('/register', authorization.onlyNoLogin, userControllers.renderRegister);
 app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);
 
+//Ruta login
 app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin);
 app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 
+//Ruta tournament
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByUser);
 app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
+//Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
 app.get('/team/teamsparticipate', authorization.onlyLogin, teamControllers.getTeamsIParticipateIn);
