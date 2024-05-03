@@ -1,18 +1,8 @@
 extends layout
 
-block content 
-    h1 MIS TORNEOS
-            if status
-                .product-grid
-                    each el in results 
-                        .product
-                            div
-                                img(src="/img/img.jpeg", alt="img torneo 1")
-                                h2 #{el.nombreTorneo}
-                                p #{el.descripcion}
-                                p Inicio: #{el.fechaInicioLegible} 
-                                p Termino: #{el.fechaTerminoLegible}
-                            a(href="#", class="btn") Más información
-            else
-                h3.vacio No posee torneos inscritos
-                        
+block content
+    .container
+        .content
+            .buttons-container
+                a.btn.btn-primary(href="/tournament/participate") Torneos Incritos
+                a.btn.btn-primary(href="/tournament/mytournaments") Mis Tornreos
