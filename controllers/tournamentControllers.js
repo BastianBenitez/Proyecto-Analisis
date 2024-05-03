@@ -22,7 +22,7 @@ const getMyTournaments = async (req, res) => {
     const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
     
     try {
-        const userID = await authorization.getUserIDToken(req)
+        const userID = await authorization.getUserIDToken(req);
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
