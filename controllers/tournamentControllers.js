@@ -2,6 +2,8 @@ import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
 import authorization from '../middlewares/authorization.js';
 
+const renderTournaments = (req, res) => res.status(200).render('tournaments.pug', { statuslogin: true, status: true });
+
 const getAllTournaments = async (req, res) => {
     const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorID, ResultadoTorneo FROM torneos";
     const validationToken = await authorization.tokenAuthorization(req);
@@ -16,7 +18,7 @@ const getAllTournaments = async (req, res) => {
     }
 };
 
-const getTournamentsByUser = async (req, res) => {
+const getMyTournaments = async (req, res) => {
     const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
     
     try {
@@ -24,7 +26,7 @@ const getTournamentsByUser = async (req, res) => {
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
-        res.render('tournaments.pug', { title: 'Torneos', results, status, statuslogin: true });
+        res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor');
@@ -56,4 +58,9 @@ const getDetailsTournaments = async (req, res) => {
 
 
 
-export default { getAllTournaments, getTournamentsByUser, getDetailsTournaments };
+export default { 
+    getAllTournaments, 
+    getMyTournaments, 
+    getDetailsTournaments, 
+    renderTournaments 
+};
