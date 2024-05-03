@@ -12,7 +12,7 @@ block content
                                 p #{el.Descripcion}
                                 p Inicio: #{el.fechaInicioLegible} 
                                 p Termino: #{el.fechaTerminoLegible}
-                            a(href="#", class="btn") Más información
+                            a(href="/tournament/mytournaments/"+ el.TorneoId, class="btn") Más información
             else
                 h3.vacio No posee torneos inscritos
                         
