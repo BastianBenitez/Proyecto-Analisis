@@ -40,16 +40,16 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.renderTournaments);
 
 app.get('/tournament/participate', authorization.onlyLogin, );
-app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
+app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournament);
 
 app.get('/tournament/mytournaments', authorization.onlyLogin, tournamentControllers.getMyTournaments);
+app.get('/tournament/mytournaments/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournament);
+
 app.get('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 app.post('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 
 app.get('/tournament/newtournament', authorization.onlyLogin, );
 app.post('/tournament/newtournament', authorization.onlyLogin, );
-
-app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);

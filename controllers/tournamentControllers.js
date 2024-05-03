@@ -33,7 +33,7 @@ const getMyTournaments = async (req, res) => {
     }
 };
 
-const getDetailsTournaments = async (req, res) => {
+const getDetailsTournament = async (req, res) => {
     const tornoeID = req.params.id;
     const queryTournament = 'SELECT * FROM torneos WHERE TorneoID = ?';
     const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ?';
@@ -48,8 +48,9 @@ const getDetailsTournaments = async (req, res) => {
         const [[tournamentResult]] = await connection.query(queryTournament, [tornoeID]);
         const [racesResult] = await connection.query(queryRaces, [tornoeID]);
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
+        const [[nameCapitan]] = await connection.query('SELECT NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
 
-        res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, statuslogin: true });
+        res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
     } catch(error) {
         console.log(error);
         res.status(500).send("Error interno del servidor");
@@ -61,6 +62,6 @@ const getDetailsTournaments = async (req, res) => {
 export default { 
     getAllTournaments, 
     getMyTournaments, 
-    getDetailsTournaments, 
+    getDetailsTournament,
     renderTournaments 
 };
