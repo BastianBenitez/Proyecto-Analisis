@@ -1,12 +1,48 @@
 extends layout
 
 block content 
-    each i in tournament
-        h1= i
-    each i in races
-        each j in i 
-            h1= j
-    each i in drivers
-        each j in i 
-            h1= j
+    .container
+        .content
+            h2 DATOS DEL TORNEO: #{tournament.NombreTorneo}
+            table.center-table
+                thead
+                    tr
+                    th Parametro
+                    th Valor
+                tbody
+                    tr
+                    td Nombre
+                    td #{tournament.NombreTorneo}
+                    tr
+                    td Creador
+                    td #{nameCapitan.NombreUsuario}
+                    tr
+                    td Fecha Inicio
+                    td #{tournament.FechaInicio}
+                    tr
+                    td Fecha termino
+                    td #{tournament.FechaTermino}
+                    tr
+                    td Descripcion
+                    td #{tournament.Descripcion}
+        h2 Carrearas
+        .product-grid
+            each el in races 
+                .product
+                    div
+                        img(src="/img/img.jpeg", alt="img torneo 1")
+                        h2 #{el.NombreTorneo}
+                        p Duracion Carrera: #{el.DuracionCarrera} 
+                        p Condiciones: #{el.Condiciones}
+                        p Fecha: #{el.Fecha}
+
+        h2 Pilotos
+
+        .product-grid
+            each el in drivers 
+                .product
+                    div
+                        img(src="/img/img.jpeg", alt="img torneo 1")
+                        h2 #{el.NombreTorneo}
+                        p Nombre del piloto : #{el.NombreUsuario} 
                         

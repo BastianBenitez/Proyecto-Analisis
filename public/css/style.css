@@ -12,10 +12,10 @@ body {
 
 .container {
   display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-/* MENU */
 .menu {
   width: 75px;
   background-color: #222032;
@@ -60,7 +60,6 @@ body {
   margin-left: 100px;
 }
 
-/* ESTILO DE FORMULARIOS */
 #register-container {
   max-width: 400px;
   margin: 50px auto;
@@ -109,8 +108,9 @@ input.form-control {
   font-size: 16px;
   background-color: #222032;
   color: #fff;
-  margin-bottom: 20px; /* ajuste para espaciar los campos */
+  margin-bottom: 20px;
 }
+
 input.form-control-text {
   width: 380px;
   height: 50px;
@@ -120,7 +120,7 @@ input.form-control-text {
   font-size: 16px;
   background-color: #222032;
   color: #fff;
-  margin-bottom: 20px; /* ajuste para espaciar los campos */
+  margin-bottom: 20px;
 }
 
 .hidden {
@@ -128,7 +128,7 @@ input.form-control-text {
 }
 
 button.btn-register {
-  width: 100%; /* ancho al 100% para ocupar todo el contenedor */
+  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 4px;
@@ -136,29 +136,27 @@ button.btn-register {
   color: white;
   font-size: 16px;
   cursor: pointer;
-  margin-bottom: 20px; /* añadir espacio inferior */
+  margin-bottom: 20px;
 }
 
 button.btn-register:hover {
   background-color: #8a45d7;
 }
 
-/* Estilo para el párrafo y el enlace de registro */
 #register-container p {
-  text-align: center; /* centrar el texto */
-  margin-bottom: 20px; /* añadir espacio inferior */
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #register-container p a {
-  color: #9B50E1; /* cambiar el color del enlace */
-  text-decoration: none; /* quitar subrayado */
+  color: #9B50E1;
+  text-decoration: none;
 }
 
 #register-container p a:hover {
-  text-decoration: underline; /* subrayar al pasar el ratón */
+  text-decoration: underline;
 }
 
-/* MOSTRAR TORNEOS/ VISTA PRINCIPAL */
 #hero {
   text-align: center;
   margin-bottom: 50px;
@@ -238,10 +236,30 @@ button.btn-register:hover {
   background-color: #8a45d7;
 }
 
-/* TOURNEMENTS */
-.vacio {
+.center-table {
   margin: 0 auto;
-  font-size: 30px;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.center-table th,
+.center-table td {
+  padding: 12px;
   text-align: center;
-  color: rgb(240, 67, 67);
+  border: 1px solid #ccc;
+}
+
+.center-table th {
+  background-color: #222032;
+  color: white;
+}
+
+.center-table tbody tr:nth-child(even) {
+  background-color: #222032;
+  color: white;
+}
+
+.center-table tbody tr:hover {
+  background-color: #9B50E1;
+  color: white;
 }
