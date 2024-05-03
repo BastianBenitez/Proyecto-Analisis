@@ -37,14 +37,25 @@ app.get('/login', authorization.onlyNoLogin, userControllers.renderLogin);
 app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 
 //Ruta tournament
-app.get('/tournament', authorization.onlyLogin, tournamentControllers.getTournamentsByUser);
-app.get('/tournament/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
+app.get('/tournament', authorization.onlyLogin, tournamentControllers.renderTournaments);
+
+app.get('/tournament/participate', authorization.onlyLogin, );
+app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
+
+app.get('/tournament/mytournaments', authorization.onlyLogin, tournamentControllers.getMyTournaments);
+app.get('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
+app.post('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
+
+app.get('/tournament/newtournament', authorization.onlyLogin, );
+app.post('/tournament/newtournament', authorization.onlyLogin, );
+
+app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournaments);
 
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
-app.get('/team/teamsparticipate', authorization.onlyLogin, teamControllers.getTeamsIParticipateIn);
-app.get('/team/teamsparticipate/:id', authorization.onlyLogin, teamControllers.getDetailTeam);
+app.get('/team/participate', authorization.onlyLogin, teamControllers.getTeamsIParticipateIn);
+app.get('/team/participate/:id', authorization.onlyLogin, teamControllers.getDetailTeam);
 
 app.get('/team/myteam', authorization.onlyLogin, teamControllers.getMyTeams);
 app.get('/team/myteam/:id', authorization.onlyLogin, teamControllers.getDetailTeam);
