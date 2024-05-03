@@ -105,7 +105,7 @@ const creationNewTeam = async (req, res) => {
         if (nameCount[0].count === 1) return res.status(400).json({ success: false, message: 'El nombre del equipo ya está registrado' });
 
         await connection.query(query, [name, description, userID.UserID] )
-        return res.status(200).json({ success: true, message: 'Registro completado', redirect: '/myteams' });
+        return res.status(200).json({ success: true, message: 'Registro completado', redirect: '/team/myteam' });
     }catch(erorr){
         console.log(erorr);
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");

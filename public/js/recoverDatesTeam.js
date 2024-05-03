@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     try {
-        const response = await fetch('/newteam', {
+        const response = await fetch('/team/newteam', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
