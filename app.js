@@ -39,7 +39,7 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 //Ruta tournament
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.renderTournaments);
 
-app.get('/tournament/participate', authorization.onlyLogin, );
+app.get('/tournament/participate', authorization.onlyLogin, tournamentControllers.getIParticipateIn);
 app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournament);
 
 app.get('/tournament/mytournaments', authorization.onlyLogin, tournamentControllers.getMyTournaments);
@@ -54,7 +54,7 @@ app.post('/tournament/newtournament', authorization.onlyLogin, );
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
-app.get('/team/participate', authorization.onlyLogin, teamControllers.getTeamsIParticipateIn);
+app.get('/team/participate', authorization.onlyLogin, teamControllers.getIParticipateIn);
 app.get('/team/participate/:id', authorization.onlyLogin, teamControllers.getDetailTeam);
 
 app.get('/team/myteam', authorization.onlyLogin, teamControllers.getMyTeams);
