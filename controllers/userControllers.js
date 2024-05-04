@@ -45,16 +45,13 @@ const userRegister = async (req, res) => {
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
-  }
+  if (!email || !password) return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
+
 
   try {
     const [emailCount] = await connection.query("SELECT COUNT(*) AS count FROM usuarios WHERE CorreoElectronico = ?", [email]);
 
-    if (emailCount[0].count === 0) {
-      return res.status(400).json({ success: false, message: 'El correo electrónico no está registrado' });
-    }
+    if (emailCount[0].count === 0) return res.status(400).json({ success: false, message: 'El correo electrónico no está registrado' });
 
     const [userData] = await connection.query("SELECT NombreUsuario, CorreoElectronico, Contrasena FROM usuarios WHERE CorreoElectronico = ?", [email]);
     const logonCorrect = await bcryptjs.compare(password, userData[0].Contrasena);

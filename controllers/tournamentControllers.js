@@ -11,7 +11,7 @@ const getAllTournaments = async (req, res) => {
     try {
         const [results] = await connection.query(query);
         const statuslogin = !!validationToken;
-        res.render('index.pug', { title: 'Torneos', results, statuslogin });
+        return res.render('index.pug', { title: 'Torneos', results, statuslogin });
     } catch (error) {
         console.error(error);
         return res.status(500).send('Error interno del servidor');
@@ -24,7 +24,6 @@ const getMyTournaments = async (req, res) => {
     
     try {
         const [results] = await connection.query(query, [userID.UserID]);
-        console.log(results)
         const status = results.length > 0;
 
         return res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/mytournaments/'});
@@ -42,7 +41,6 @@ const getIParticipateIn = async (req, res) => {
     try{
         const [resultsID] = await connection.query(query, [userID.UserID])
         const tournamentIDs = resultsID.map(row => row.TorneoID);
-        console.log(tournamentIDs)
         let condiciones = tournamentIDs.map(id => `TorneoID = ${id}`).join(' OR ');
         const consultaCompleta = queryTournament + condiciones;
         const [results] = await connection.query(consultaCompleta);

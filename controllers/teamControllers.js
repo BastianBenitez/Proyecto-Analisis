@@ -5,7 +5,7 @@ const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
 
 const teamRender = (req, res) => {
     try{
-        res.status(200).render('team.pug', { status: true, statuslogin: true })
+        return res.status(200).render('team.pug', { status: true, statuslogin: true })
     }catch(error){
         console.log(error)
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
@@ -65,7 +65,6 @@ const getMyTeams = async (req, res) => {
 
     try {
         const [Result] = await connection.query(query, [userID.UserID]);
-        console.log(Result)
         const equiposIDs = Result.map(row => row.EquipoID);
 
         if (equiposIDs.length === 0) {
