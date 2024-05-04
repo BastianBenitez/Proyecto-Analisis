@@ -33,7 +33,7 @@ const getDetailTeam = async (req, res) => {
     }
 };
 
-const getTeamsIParticipateIn = async (req, res) => {
+const getIParticipateIn = async (req, res) => {
     const userID = await authorization.getUserIDToken(req);
     const queryUser = 'SELECT EquipoID FROM miembros_equipo WHERE UsuarioID = ?';
     const queryTeam = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE ';
@@ -123,5 +123,5 @@ export default {
     editTeam, 
     creationNewTeamRender,
     teamRender,
-    getTeamsIParticipateIn
+    getIParticipateIn
 }
