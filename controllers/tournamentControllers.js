@@ -5,7 +5,7 @@ import authorization from '../middlewares/authorization.js';
 const renderTournaments = (req, res) => res.status(200).render('tournaments.pug', { statuslogin: true, status: true });
 
 const getAllTournaments = async (req, res) => {
-    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorID, ResultadoTorneo FROM torneos";
+    const query = "SELECT * FROM torneos";
     const validationToken = await authorization.tokenAuthorization(req);
 
     try {
@@ -14,24 +14,47 @@ const getAllTournaments = async (req, res) => {
         res.render('index.pug', { title: 'Torneos', results, statuslogin });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error interno del servidor');
+        return res.status(500).send('Error interno del servidor');
     }
 };
 
 const getMyTournaments = async (req, res) => {
-    const query = "SELECT TorneoId, NombreTorneo, Descripcion, DATE_FORMAT(FechaInicio, '%d de %M de %Y') AS fechaInicioLegible, DATE_FORMAT(FechaTermino, '%d de %M de %Y') AS fechaTerminoLegible, OrganizadorId, ResultadoTorneo FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
+    const query = "SELECT * FROM torneos WHERE OrganizadorID = ? ORDER BY FechaInicio ASC";
+    const userID = await authorization.getUserIDToken(req);
     
     try {
-        const userID = await authorization.getUserIDToken(req);
         const [results] = await connection.query(query, [userID.UserID]);
+        console.log(results)
         const status = results.length > 0;
 
-        res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true });
+        return res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/mytournaments/'});
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error interno del servidor');
+        return res.status(500).send('Error interno del servidor');
     }
 };
+
+const getIParticipateIn = async (req, res) => {
+    const userID = await authorization.getUserIDToken(req);
+    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ?';
+    const queryTournament = 'SELECT * FROM torneos WHERE ';
+
+    try{
+        const [resultsID] = await connection.query(query, [userID.UserID])
+        const tournamentIDs = resultsID.map(row => row.TorneoID);
+        console.log(tournamentIDs)
+        let condiciones = tournamentIDs.map(id => `TorneoID = ${id}`).join(' OR ');
+        const consultaCompleta = queryTournament + condiciones;
+        const [results] = await connection.query(consultaCompleta);
+        
+        const status = resultsID.length > 0;
+
+        return res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/participate/'});
+    }catch(error){
+        console.log(error)
+        return res.status(500).send('Error interno del servidor');
+    }
+}
 
 const getDetailsTournament = async (req, res) => {
     const tornoeID = req.params.id;
@@ -50,18 +73,17 @@ const getDetailsTournament = async (req, res) => {
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
         const [[nameCapitan]] = await connection.query('SELECT NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
 
-        res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
+        return res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
     } catch(error) {
         console.log(error);
-        res.status(500).send("Error interno del servidor");
+        return res.status(500).send("Error interno del servidor");
     }
 };
-
-
 
 export default { 
     getAllTournaments, 
     getMyTournaments, 
     getDetailsTournament,
-    renderTournaments 
+    renderTournaments,
+    getIParticipateIn
 };
