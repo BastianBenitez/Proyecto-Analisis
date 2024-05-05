@@ -2,6 +2,8 @@ import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
 import authorization from '../middlewares/authorization.js';
 
+const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
+
 const renderTournaments = (req, res) => res.status(200).render('./tournament/tournaments.pug', { statuslogin: true, status: true });
 
 const getAllTournaments = async (req, res) => {
@@ -55,7 +57,9 @@ const getIParticipateIn = async (req, res) => {
 }
 
 const getDetailsTournament = async (req, res) => {
+    let Owner = false;
     const tornoeID = req.params.id;
+    const userID = await authorization.getUserIDToken(req);
     const queryTournament = 'SELECT * FROM torneos WHERE TorneoID = ?';
     const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ?';
     const queryDriversAndNames = `
@@ -69,19 +73,47 @@ const getDetailsTournament = async (req, res) => {
         const [[tournamentResult]] = await connection.query(queryTournament, [tornoeID]);
         const [racesResult] = await connection.query(queryRaces, [tornoeID]);
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
-        const [[nameCapitan]] = await connection.query('SELECT NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
+        const [[nameCapitan]] = await connection.query('SELECT UserID, NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
+        
+        if (nameCapitan.UserID == userID.UserID) Owner = true;
 
-        return res.render('./tournament/detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
+        return res.render('./tournament/detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan: nameCapitan.NombreUsuario, statuslogin: true, Owner });
     } catch(error) {
         console.log(error);
         return res.status(500).send("Error interno del servidor");
     }
 };
 
+const renderNewTournaments = (req, res) => res.status(200).render('./tournament/newtournament.pug', { statuslogin: true, status: true });
+
+const creationNewTournament = async (req, res) =>{
+    const userID = await authorization.getUserIDToken(req);
+    const { name, description, dateStart, dateFinish } = req.body
+    const query = 'INSERT INTO torneos (NombreTorneo, Descripcion, FechaInicio, FechaTermino, OrganizadorID) VALUES(?, ?, ?, ?, ?)';
+    
+    if (!name || !description || !dateStart || !dateFinish) {
+        return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
+    } else if (name.length > 15) {
+        return res.status(400).json({ success: false, message: 'El nombre no puede tener una logitud superor a 15 caracteres' });
+    }else if(!noHTML(name) || !noHTML(description)){
+        return res.status(400).json({ success: false, message: 'Nombre o descripcion no validos' });
+    }
+
+    try{
+        const [results] = await connection.query(query, [name, description, dateStart, dateFinish, userID.UserID])
+        return res.status(200).json({ success: true, message: 'Registro completado', redirect: `/tournament/mytournaments/${results.insertId}`});
+    }catch(error){
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
 export default { 
     getAllTournaments, 
     getMyTournaments, 
     getDetailsTournament,
     renderTournaments,
-    getIParticipateIn
+    getIParticipateIn,
+    renderNewTournaments,
+    creationNewTournament
 };
