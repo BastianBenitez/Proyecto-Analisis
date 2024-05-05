@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    #register-container
+        h2 Agregar una carrera
+        form(action="/register" method="post")
+            .form-group
+                select#tackname
+                    each el in pistas
+                        option #{el.NombrePista}
+            
+            .form-group
+                label(for="racecondition") Condiciones
+                input#racecondition.form-control-text(type="text" name="racecondition" placeholder="Ingresa Las condiciones" required)
+
+            .form-group
+                label(for="raceduration") Duracion de la carrera
+                input#raceduration.form-control(type="text" name="raceduration" placeholder="" required)
+
+            .form-group
+                label(for="datestart") Fecha de inicio
+                input#datestart.form-control(type="date" name="datestart" placeholder="" required)
+                label#torneoid.none(type="text" name="datestart") #{torneoID}
+
+            button.btn-register.btn-primary(type="submit") Agregar Carrera
+            p(class="hidden" id="alert")
+    .buttons-container
+        a.btn.btn-primary(href="/tournament/mytournaments/" + torneoID) Volver
+
+    script(src="/js/recoverDatesRace.js")
