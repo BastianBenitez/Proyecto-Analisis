@@ -48,8 +48,8 @@ app.get('/tournament/mytournaments/:id', authorization.onlyLogin, tournamentCont
 app.get('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 app.post('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 
-app.get('/tournament/newtournament', authorization.onlyLogin, );
-app.post('/tournament/newtournament', authorization.onlyLogin, );
+app.get('/tournament/newtournament', authorization.onlyLogin, tournamentControllers.renderNewTournaments);
+app.post('/tournament/newtournament', authorization.onlyLogin, tournamentControllers.creationNewTournament);
 
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
