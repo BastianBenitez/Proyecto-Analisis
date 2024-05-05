@@ -15,7 +15,7 @@ block content
                     td #{tournament.NombreTorneo}
                     tr
                     td Creador
-                    td #{nameCapitan.NombreUsuario}
+                    td #{nameCapitan}
                     tr
                     td Fecha Inicio
                     td #{tournament.FechaInicio}
@@ -26,6 +26,9 @@ block content
                     td Descripcion
                     td #{tournament.Descripcion}
         h2 Carrearas
+        if Owner
+            .buttons-container
+                a.btn.btn-primary(href="/tournament/newtournament/addrace/"+tournament.TorneoID) Agregar Carrera
         .product-grid
             each el in races 
                 .product
@@ -37,7 +40,6 @@ block content
                         p Fecha: #{el.Fecha}
 
         h2 Pilotos
-
         .product-grid
             each el in drivers 
                 .product
