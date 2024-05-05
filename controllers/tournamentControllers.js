@@ -2,7 +2,7 @@ import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
 import authorization from '../middlewares/authorization.js';
 
-const renderTournaments = (req, res) => res.status(200).render('tournaments.pug', { statuslogin: true, status: true });
+const renderTournaments = (req, res) => res.status(200).render('./tournament/tournaments.pug', { statuslogin: true, status: true });
 
 const getAllTournaments = async (req, res) => {
     const query = "SELECT * FROM torneos";
@@ -26,7 +26,7 @@ const getMyTournaments = async (req, res) => {
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
-        return res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/mytournaments/'});
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/mytournaments/'});
     } catch (error) {
         console.error(error);
         return res.status(500).send('Error interno del servidor');
@@ -47,7 +47,7 @@ const getIParticipateIn = async (req, res) => {
         
         const status = resultsID.length > 0;
 
-        return res.render('mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/participate/'});
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/participate/'});
     }catch(error){
         console.log(error)
         return res.status(500).send('Error interno del servidor');
@@ -71,7 +71,7 @@ const getDetailsTournament = async (req, res) => {
         const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
         const [[nameCapitan]] = await connection.query('SELECT NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
 
-        return res.render('detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
+        return res.render('./tournament/detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan, statuslogin: true });
     } catch(error) {
         console.log(error);
         return res.status(500).send("Error interno del servidor");

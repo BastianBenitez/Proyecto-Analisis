@@ -5,7 +5,7 @@ const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
 
 const teamRender = (req, res) => {
     try{
-        return res.status(200).render('team.pug', { status: true, statuslogin: true })
+        return res.status(200).render('./team/team.pug', { status: true, statuslogin: true })
     }catch(error){
         console.log(error)
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
@@ -26,7 +26,7 @@ const getDetailTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
-        return res.status(200).render('myteamdetails.pug', { teamDetail, status: true, statuslogin: true });
+        return res.status(200).render('./team/myteamdetails.pug', { teamDetail, status: true, statuslogin: true });
     }catch(error){
         console.log(error);
         return res.status(500).send("Hubo un error al obtener los equipos del usuario.");
@@ -50,7 +50,7 @@ const getIParticipateIn = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        return res.status(200).render('myteam.pug', { teamResult , status: true, statuslogin: true });
+        return res.status(200).render('./team/myteam.pug', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);
@@ -75,7 +75,7 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        return res.status(200).render('myteam.pug', { teamResult , status: true, statuslogin: true });
+        return res.status(200).render('./team/myteam.pug', { teamResult , status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);
@@ -83,7 +83,7 @@ const getMyTeams = async (req, res) => {
     }
 }
 
-const creationNewTeamRender = (req, res) => res.status(200).render('createNewTeam.pug', { status: true, statuslogin: true });
+const creationNewTeamRender = (req, res) => res.status(200).render('./team/createNewTeam.pug', { status: true, statuslogin: true });
 
 const creationNewTeam = async (req, res) => {
     const { name, description } = req.body
