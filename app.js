@@ -51,6 +51,9 @@ app.post('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 app.get('/tournament/newtournament', authorization.onlyLogin, tournamentControllers.renderNewTournaments);
 app.post('/tournament/newtournament', authorization.onlyLogin, tournamentControllers.creationNewTournament);
 
+app.get('/tournament/newtournament/addrace/:id', authorization.onlyLogin, tournamentControllers.renderAddRace);
+app.post('/tournament/newtournament/addrace', authorization.onlyLogin, tournamentControllers.addRace);
+
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);
 
