@@ -2,17 +2,19 @@ extends ../layout
 
 block content 
     h1 TORNEOS
-            if status
-                .product-grid
-                    each el in results 
-                        .product
-                            div
-                                img(src="/img/img.jpeg", alt="img torneo 1")
-                                h2 #{el.NombreTorneo}
-                                p #{el.Descripcion}
-                                p Inicio: #{el.FechaInicio} 
-                                p Termino: #{el.FechaTermino}
-                            a(href= url + el.TorneoID, class="btn") Más información
-            else
-                h3.vacio No posee torneos inscritos
-                        
+    .buttons-container
+        a.btn.btn-primary(href="/tournament/newtournament") Crear torneo
+    if status
+        .product-grid
+            each el in results 
+                .product
+                    div
+                        img(src="/img/img.jpeg", alt="img torneo 1")
+                        h2 #{el.NombreTorneo}
+                        p #{el.Descripcion}
+                        p Inicio: #{el.FechaInicio} 
+                        p Termino: #{el.FechaTermino}
+                    a(href= url + el.TorneoID, class="btn") Más información
+    else
+        h3.vacio No posee torneos inscritos
+                    
