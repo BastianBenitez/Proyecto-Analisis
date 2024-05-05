@@ -26,6 +26,7 @@ const getDetailTeam = async (req, res) => {
             ...teamResult,
             Capitan: captainResult.NombreUsuario
         };
+        
         return res.status(200).render('./team/myteamdetails.pug', { teamDetail, status: true, statuslogin: true });
     }catch(error){
         console.log(error);

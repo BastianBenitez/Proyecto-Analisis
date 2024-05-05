@@ -1,1 +1,24 @@
 extends ../layout
+
+block content 
+    .container
+        .content
+            h2 DATOS DEL EQUIPO: #{teamDetail.Nombre}
+            table.center-table
+                thead
+                    tr
+                    th Parametro
+                    th Valor
+                tbody
+                    tr
+                    td Nombre
+                    td #{teamDetail.Nombre}
+                    tr
+                    td Capitan
+                    td #{teamDetail.Capitan}
+                    tr
+                    td Creacion
+                    td #{teamDetail.FechaCreacion}
+                    tr
+                    td Descripcion
+                    td #{teamDetail.Descripcion}
