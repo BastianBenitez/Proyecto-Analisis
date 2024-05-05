@@ -37,7 +37,7 @@ const getMyTournaments = async (req, res) => {
 
 const getIParticipateIn = async (req, res) => {
     const userID = await authorization.getUserIDToken(req);
-    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ?';
+    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ? ORDER BY FechaInicio ASC';
     const queryTournament = 'SELECT * FROM torneos WHERE ';
 
     try{
@@ -61,7 +61,7 @@ const getDetailsTournament = async (req, res) => {
     const tornoeID = req.params.id;
     const userID = await authorization.getUserIDToken(req);
     const queryTournament = 'SELECT * FROM torneos WHERE TorneoID = ?';
-    const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ?';
+    const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ? ORDER BY Fecha ASC';
     const queryDriversAndNames = `
         SELECT participantes.UsuarioID, usuarios.NombreUsuario
         FROM participantes
@@ -108,6 +108,34 @@ const creationNewTournament = async (req, res) =>{
     }
 }
 
+const renderAddRace = async (req, res) => {
+    const query = 'SELECT NombrePista FROM pistas';
+    const torneoID = req.params.id;
+    console.log(torneoID)
+    
+    try{
+        const [results] = await connection.query(query)
+        return res.status(200).render('./tournament/addrace.pug', { torneoID, pistas: results, statuslogin: true, status: true });
+    }catch(error){
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
+const addRace = async (req, res) => {
+    const { torneoID, tackName, raceDuration, racecondition, dateStart } = req.body
+    const query = 'INSERT INTO carreras (TorneoID, PistaID, DuracionCarrera, Condiciones, Fecha) VALUES(?,?,?,?,?)';
+    const queryTracks = 'SELECT PistaID FROM pistas WHERE NombrePista = ?';
+
+    try{
+        const [[trackID]] = await connection.query(queryTracks, [tackName]) 
+        await connection.query(query, [torneoID, trackID.PistaID, raceDuration, racecondition, dateStart])
+    }catch(error){
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
 export default { 
     getAllTournaments, 
     getMyTournaments, 
@@ -115,5 +143,7 @@ export default {
     renderTournaments,
     getIParticipateIn,
     renderNewTournaments,
-    creationNewTournament
+    creationNewTournament,
+    renderAddRace,
+    addRace
 };
