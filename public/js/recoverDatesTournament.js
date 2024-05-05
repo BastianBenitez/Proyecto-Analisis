@@ -8,11 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const description = document.getElementById('description').value;
     const dateStart = document.getElementById('datestart').value;
     const dateFinish = document.getElementById('datefinish').value;
-    console.log(name)
-    console.log(description)
-    console.log(dateStart)
-    console.log(dateFinish)
-
 
     try {
         const response = await fetch('/tournament/newtournament', {
