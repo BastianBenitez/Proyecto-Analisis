@@ -45,6 +45,8 @@ app.get('/tournament/participate/:id', authorization.onlyLogin, tournamentContro
 app.get('/tournament/mytournaments', authorization.onlyLogin, tournamentControllers.getMyTournaments);
 app.get('/tournament/mytournaments/:id', authorization.onlyLogin, tournamentControllers.getDetailsTournament);
 
+app.get('/tournament/join/:id', authorization.onlyLogin, tournamentControllers.joinTournamenent);
+
 app.get('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 app.post('/tournament/mytournament/edit/:id', authorization.onlyLogin, );
 

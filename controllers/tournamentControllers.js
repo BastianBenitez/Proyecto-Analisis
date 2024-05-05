@@ -1,6 +1,7 @@
 import connection from '../config/connectionDB.js';
 import jsonwebtoken from 'jsonwebtoken';
 import authorization from '../middlewares/authorization.js';
+import { query } from 'express';
 
 const noHTML = str => !/<[a-z][\s\S]*>/i.test(str);
 
@@ -58,7 +59,7 @@ const getIParticipateIn = async (req, res) => {
 
 const getDetailsTournament = async (req, res) => {
     let Owner = false;
-    const tornoeID = req.params.id;
+    const torneoID = req.params.id;
     const userID = await authorization.getUserIDToken(req);
     const queryTournament = 'SELECT * FROM torneos WHERE TorneoID = ?';
     const queryRaces = 'SELECT * FROM carreras WHERE TorneoID = ? ORDER BY Fecha ASC';
@@ -70,14 +71,17 @@ const getDetailsTournament = async (req, res) => {
     `;
 
     try {
-        const [[tournamentResult]] = await connection.query(queryTournament, [tornoeID]);
-        const [racesResult] = await connection.query(queryRaces, [tornoeID]);
-        const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [tornoeID]);
+        const [[tournamentResult]] = await connection.query(queryTournament, [torneoID]);
+        const [racesResult] = await connection.query(queryRaces, [torneoID]);
+        const [driversAndNamesResult] = await connection.query(queryDriversAndNames, [torneoID]);
         const [[nameCapitan]] = await connection.query('SELECT UserID, NombreUsuario FROM usuarios WHERE UserID = ?', tournamentResult.OrganizadorID)
+        let registed = false;
         
         if (nameCapitan.UserID == userID.UserID) Owner = true;
+        const [[count]] = await connection.query("SELECT COUNT(*) AS count FROM participantes WHERE UsuarioID  = ? AND TorneoID = ?", [userID.UserID, torneoID]);
+        if (count.count === 1) registed = true;
 
-        return res.render('./tournament/detailsTournaments.pug', { title: 'Torneos', tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan: nameCapitan.NombreUsuario, statuslogin: true, Owner });
+        return res.render('./tournament/detailsTournaments.pug', { title: 'Torneos', registed, tournament: tournamentResult, races: racesResult, drivers: driversAndNamesResult, nameCapitan: nameCapitan.NombreUsuario, statuslogin: true, Owner });
     } catch(error) {
         console.log(error);
         return res.status(500).send("Error interno del servidor");
@@ -111,7 +115,6 @@ const creationNewTournament = async (req, res) =>{
 const renderAddRace = async (req, res) => {
     const query = 'SELECT NombrePista FROM pistas';
     const torneoID = req.params.id;
-    console.log(torneoID)
     
     try{
         const [results] = await connection.query(query)
@@ -136,6 +139,26 @@ const addRace = async (req, res) => {
     }
 }
 
+const joinTournamenent = async (req, res) =>{
+    const torneoID = req.params.id;
+    const userID = await authorization.getUserIDToken(req);
+    const query = 'INSERT INTO participantes (UsuarioID, TorneoID) VALUES(?,?)';
+
+    try{  
+        const [[count]] = await connection.query("SELECT COUNT(*) AS count FROM participantes WHERE UsuarioID  = ? AND TorneoID = ?", [userID.UserID, torneoID]);
+        if (count.count === 1) {
+            return res.redirect('/')
+        }
+
+        await connection.query(query, [userID.UserID, torneoID])
+        return res.redirect('/tournament/participate/'+ torneoID)
+        
+    }catch(error){
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
 export default { 
     getAllTournaments, 
     getMyTournaments, 
@@ -145,5 +168,6 @@ export default {
     renderNewTournaments,
     creationNewTournament,
     renderAddRace,
-    addRace
+    addRace,
+    joinTournamenent
 };

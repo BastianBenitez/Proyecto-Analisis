@@ -29,6 +29,9 @@ block content
         if Owner
             .buttons-container
                 a.btn.btn-primary(href="/tournament/newtournament/addrace/"+tournament.TorneoID) Agregar Carrera
+        if !registed
+            .buttons-container
+                a.btn.btn-primary(href="/tournament/join/" + tournament.TorneoID) Unirse 
         .product-grid
             each el in races 
                 .product
