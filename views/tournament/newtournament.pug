@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+    #register-container
+        h2 Crea un nuevo Torneo
+        form(action="/register" method="post")
+            .form-group
+                label(for="tournamentname") Nombre del toneo
+                input#tournamentname.form-control(type="text" name="tournamentname" placeholder="Nombre del torneo" required)
+            
+            .form-group
+                label(for="description") Descripcion
+                input#description.form-control-text(type="text" name="description" placeholder="Descripcion del torneo" required)
+
+            .form-group
+            label(for="startdate") Fecha de inicio
+            input#datestart.form-control(type="date" name="startdate" placeholder="Fecha de inicio" required)
+
+            .form-group
+            label(for="startdate") Fecha de Termino
+            input#datefinish.form-control(type="date" name="startdate" placeholder="Fecha de inicio" required)
+
+            button.btn-register.btn-primary(type="submit") Registrar
+            p(class="hidden" id="alert")
+
+    script(src="/js/recoverDatesTournament.js")
