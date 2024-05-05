@@ -37,7 +37,7 @@ const getMyTournaments = async (req, res) => {
 
 const getIParticipateIn = async (req, res) => {
     const userID = await authorization.getUserIDToken(req);
-    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ? ORDER BY FechaInicio ASC';
+    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ?';
     const queryTournament = 'SELECT * FROM torneos WHERE ';
 
     try{
