@@ -103,8 +103,8 @@ const editUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Uno o varios de los campos no son válidos, inténtelo de nuevo' });
     }
 
-    const [[userData]] = await connection.query("SELECT CorreoElectronico FROM usuarios WHERE UserID = ?", [userID.UserID]);
-    const currentEmail = userData.CorreoElectronico;
+    const [[userData]] = await connection.query("SELECT CorreoElectronico, Contrasena FROM usuarios WHERE UserID = ?", [userID]);
+    const { CorreoElectronico: currentEmail, Contrasena: currentPassword } = userData;
 
     if (email !== currentEmail) {
       const [emailCount] = await connection.query("SELECT COUNT(*) AS count FROM usuarios WHERE CorreoElectronico = ?", [email]);
@@ -113,11 +113,14 @@ const editUser = async (req, res) => {
       }
     }
 
-    // Actualizar los datos del usuario en la base de datos
-    const queryUpdate = 'UPDATE usuarios SET NombreUsuario = ?, CorreoElectronico = ? WHERE UserID = ?';
-    await connection.query(queryUpdate, [name, email, userID.UserID]);
+    const passwordCorrect = await bcryptjs.compare(password, currentPassword);
+    if (!passwordCorrect) {
+      return res.status(400).json({ success: false, message: 'La contraseña actual es incorrecta' });
+    }
 
-    // Retornar respuesta exitosa
+    const queryUpdate = 'UPDATE usuarios SET NombreUsuario = ?, CorreoElectronico = ? WHERE UserID = ?';
+    await connection.query(queryUpdate, [name, email, userID]);
+
     return res.status(201).json({ success: true, message: 'Datos Actualizados', redirect: "/" });
 
   } catch (error) {
@@ -125,6 +128,7 @@ const editUser = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Error en la edición del usuario, por favor intenta de nuevo' });
   }
 }
+
 
 
 export default { 
