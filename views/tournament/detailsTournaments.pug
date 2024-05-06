@@ -43,7 +43,7 @@ block content
                         p Condiciones: #{el.Condiciones}
                         p Fecha: #{el.Fecha}
                     if Owner    
-                        a.btn.btn-primary(href="/tournament/delete/race/" + tournament.TorneoID) Elliminar
+                        a.btn.btn-primary(href="/tournament/delete/race/" + el.CarreraID) Elliminar
 
         h2 Pilotos
         .product-grid
@@ -54,5 +54,5 @@ block content
                         h2 #{el.NombreTorneo}
                         p Nombre del piloto : #{el.NombreUsuario} 
                     if Owner    
-                        a.btn.btn-primary(href="/tournament/delete/driver/" + tournament.TorneoID) Elliminar
+                        a.btn.btn-primary(href="/tournament/delete/driver/" + el.UsuarioID) Elliminar
                         

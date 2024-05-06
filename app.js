@@ -73,8 +73,8 @@ app.post('/tournament/newtournament', authorization.onlyLogin, tournamentControl
 app.get('/tournament/newtournament/addrace/:id', authorization.onlyLogin, tournamentControllers.renderAddRace);
 app.post('/tournament/newtournament/addrace', authorization.onlyLogin, tournamentControllers.addRace);
 
-app.get('/tournament/delete/race/:id', authorization.onlyLogin, tournamentControllers.renderAddRace);
-app.get('/tournament/delete/driver/:id', authorization.onlyLogin, tournamentControllers.renderAddRace);
+app.get('/tournament/delete/race/:id', authorization.onlyLogin, tournamentControllers.deleteRace);
+app.get('/tournament/delete/driver/:id', authorization.onlyLogin, tournamentControllers.deleteDriver);
 
 //Ruta team
 app.get('/team', authorization.onlyLogin, teamControllers.teamRender);

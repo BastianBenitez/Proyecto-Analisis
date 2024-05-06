@@ -234,6 +234,32 @@ const editTournament = async (req, res) => {
     }
 }
 
+const deleteRace = async (req, res) => {
+    const raceID = req.params.id;
+    const query = 'DELETE FROM carreras WHERE CarreraID = ?'; 
+
+    try{
+        await connection.query(query, [raceID])
+        return res.redirect('/tournament/mytournaments')
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
+const deleteDriver = async (req, res) => {
+    const driverID = req.params.id;
+    const query = 'DELETE FROM participantes WHERE UsuarioID = ?'; 
+
+    try{
+        await connection.query(query, [driverID])
+        return res.redirect('/tournament/mytournaments')
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
 
 export default { 
     getAllTournaments, 
@@ -249,5 +275,7 @@ export default {
     getHistory,
     deleteTournament,
     editTournament,
-    renderEditTournament
+    renderEditTournament,
+    deleteRace,
+    deleteDriver
 };
