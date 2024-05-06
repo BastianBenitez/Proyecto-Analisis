@@ -3,7 +3,6 @@ import authorization from '../middlewares/authorization.js';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { query } from 'express';
 
 dotenv.config();
 
@@ -103,7 +102,7 @@ const editUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Uno o varios de los campos no son válidos, inténtelo de nuevo' });
     }
 
-    const [[userData]] = await connection.query("SELECT CorreoElectronico, Contrasena FROM usuarios WHERE UserID = ?", [userID]);
+    const [[userData]] = await connection.query("SELECT CorreoElectronico, Contrasena FROM usuarios WHERE UserID = ?", [userID.UserID]);
     const { CorreoElectronico: currentEmail, Contrasena: currentPassword } = userData;
 
     if (email !== currentEmail) {
@@ -119,7 +118,7 @@ const editUser = async (req, res) => {
     }
 
     const queryUpdate = 'UPDATE usuarios SET NombreUsuario = ?, CorreoElectronico = ? WHERE UserID = ?';
-    await connection.query(queryUpdate, [name, email, userID]);
+    await connection.query(queryUpdate, [name, email, userID.UserID]);
 
     return res.status(201).json({ success: true, message: 'Datos Actualizados', redirect: "/" });
 
@@ -128,8 +127,6 @@ const editUser = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Error en la edición del usuario, por favor intenta de nuevo' });
   }
 }
-
-
 
 export default { 
   renderRegister, 
