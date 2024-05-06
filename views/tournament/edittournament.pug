@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    #register-container
+        h2 Actualizar datos de Torneo
+        form(action="/register" method="post")
+            .form-group
+                label(for="name") Nombre de torneo
+                input#name.form-control(type="text" name="name" value=results.NombreTorneo required)
+            
+            .form-group
+                label(for="description") Descripcion
+                input#description.form-control-text(type="text" name="description" value=results.Descripcion required)
+
+            .form-group
+                label(for="datestart") Fecha inicio
+                input#datestart.form-control(type="date" name="datestart" value=results.FechaInicio required)
+
+            .form-group
+                label(for="datefinish") Fecha termino
+                input#datefinish.form-control(type="date" name="datefinish" value=results.FechaTermino required)
+
+            .form-group
+                label(for="result") Resultado
+                input#result.form-control-text(type="text" name="result" value=results.ResultadoTorneo required)
+
+            button.btn-register.btn-primary(type="submit") Actualizar 
+            p(class="hidden" id="alert")
+
+    script(src="/js/recoverDatesEditTournament.js")

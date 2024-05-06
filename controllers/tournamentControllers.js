@@ -133,6 +133,7 @@ const addRace = async (req, res) => {
     try{
         const [[trackID]] = await connection.query(queryTracks, [tackName]) 
         await connection.query(query, [torneoID, trackID.PistaID, raceDuration, racecondition, dateStart])
+        return res.status(201).json({ success: true, message: 'Carrera ingresada correctamente', redirect: "/tournament/mytournaments/" + torneoID });
     }catch(error){
         console.log(error);
         return res.status(500).send('Error interno del servidor');
@@ -180,7 +181,7 @@ const getHistory = async (req, res) => {
     }
 }
 
-const deleteTournament =  async (req, res) => {
+const deleteTournament = async (req, res) => {
     const torneoID = req.params.id
     const queryDeleteTorunament = 'DELETE FROM torneos WHERE TorneoID = ?';
     const queryDeleteRace = 'DELETE FROM carreras WHERE TorneoID = ?';
@@ -194,10 +195,45 @@ const deleteTournament =  async (req, res) => {
     }catch (error) {
         console.log(error);
         return res.status(500).send('Error interno del servidor');
+    }
+}
 
+const renderEditTournament = async (req, res) => {
+    const torneoID = req.params.id;
+    req.session.torneoID = torneoID;
+    const query = 'SELECT NombreTorneo, Descripcion, FechaInicio, FechaTermino, ResultadoTorneo FROM torneos WHERE TorneoID = ? ';
+
+    try{
+        const [[results]] =  await connection.query(query, [torneoID])
+        results.FechaInicio = results.FechaInicio.toISOString().split('T')[0];
+        results.FechaTermino = results.FechaTermino.toISOString().split('T')[0];
+        console.log(results)
+        return res.status(200).render('./tournament/edittournament.pug', { results, status: true, statuslogin: true });
+
+    }catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
+const editTournament = async (req, res) => {
+    const torneoID = req.session.torneoID;
+    if (!torneoID) {
+        return res.status(400).json({ success: false, message: 'ID de torneo no válido' });
     }
 
+    const { name, description, datestart, datefinish, result } = req.body;
+    const query = 'UPDATE torneos SET NombreTorneo = ?, Descripcion = ?, FechaInicio = ?, FechaTermino = ?, ResultadoTorneo= ? WHERE TorneoID = ?' ;
+
+    try {
+        await connection.query(query, [name, description, datestart, datefinish, result, torneoID])
+        return res.status(201).json({ success: true, message: 'Datos Actualizados', redirect: "/tournament/mytournaments/" + torneoID });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+    }
 }
+
 
 export default { 
     getAllTournaments, 
@@ -211,5 +247,7 @@ export default {
     addRace,
     joinTournamenent,
     getHistory,
-    deleteTournament
+    deleteTournament,
+    editTournament,
+    renderEditTournament
 };

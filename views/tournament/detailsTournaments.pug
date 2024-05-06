@@ -29,6 +29,7 @@ block content
         if Owner
             .buttons-container
                 a.btn.btn-primary(href="/tournament/newtournament/addrace/"+tournament.TorneoID) Agregar Carrera
+                a.btn.btn-primary(href="/tournament/mytournament/edit/"+tournament.TorneoID) Editar
         if !registed
             .buttons-container
                 a.btn.btn-primary(href="/tournament/join/" + tournament.TorneoID) Unirse 
@@ -41,6 +42,8 @@ block content
                         p Duracion Carrera: #{el.DuracionCarrera} 
                         p Condiciones: #{el.Condiciones}
                         p Fecha: #{el.Fecha}
+                    if Owner    
+                        a.btn.btn-primary(href="/tournament/delete/race/" + tournament.TorneoID) Elliminar
 
         h2 Pilotos
         .product-grid
@@ -50,4 +53,6 @@ block content
                         img(src="/img/img.jpeg", alt="img torneo 1")
                         h2 #{el.NombreTorneo}
                         p Nombre del piloto : #{el.NombreUsuario} 
+                    if Owner    
+                        a.btn.btn-primary(href="/tournament/delete/driver/" + tournament.TorneoID) Elliminar
                         

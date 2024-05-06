@@ -133,7 +133,7 @@ const deleteTeam = async (req, res) => {
 const renderEditTeam = async (req, res) => {
     const equipoID = req.params.id;
     req.session.equipoID = equipoID;
-    const query = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE EquipoID = ? ';
+    const query = 'SELECT Nombre, Descripcion FROM equipos WHERE EquipoID = ? ';
     try {
         const [[results]] = await connection.query(query, [equipoID]);
         console.log(results);
