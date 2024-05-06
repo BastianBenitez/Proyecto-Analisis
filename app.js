@@ -43,6 +43,8 @@ app.post('/login', authorization.onlyNoLogin, userControllers.userLogin);
 //Ruta tournament
 app.get('/tournament', authorization.onlyLogin, tournamentControllers.renderTournaments);
 
+app.get('/tournament/delete/:id', authorization.onlyLogin, tournamentControllers.deleteTournament);
+
 app.get('/tournament/history', authorization.onlyLogin, tournamentControllers.getHistory);
 
 app.get('/tournament/participate', authorization.onlyLogin, tournamentControllers.getIParticipateIn);

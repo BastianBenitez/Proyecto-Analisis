@@ -29,7 +29,7 @@ const getMyTournaments = async (req, res) => {
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
-        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, history: false,url: '/tournament/mytournaments/'});
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, owner:true, status, statuslogin: true, history: false,url: '/tournament/mytournaments/'});
     } catch (error) {
         console.error(error);
         return res.status(500).send('Error interno del servidor');
@@ -159,7 +159,7 @@ const joinTournamenent = async (req, res) => {
     }
 }
 
-const getHistory = async (req, res) =>{
+const getHistory = async (req, res) => {
     const userID = await authorization.getUserIDToken(req);
     const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ?';
     const queryTournament = 'SELECT * FROM torneos WHERE ';
@@ -180,6 +180,25 @@ const getHistory = async (req, res) =>{
     }
 }
 
+const deleteTournament =  async (req, res) => {
+    const torneoID = req.params.id
+    const queryDeleteTorunament = 'DELETE FROM torneos WHERE TorneoID = ?';
+    const queryDeleteRace = 'DELETE FROM carreras WHERE TorneoID = ?';
+    const queryDeleteParticipate = 'DELETE FROM participantes WHERE TorneoID = ?'
+
+    try{
+        connection.query(queryDeleteRace, [torneoID])
+        connection.query(queryDeleteParticipate, [torneoID])
+        connection.query(queryDeleteTorunament, [torneoID])
+        res.redirect('/tournament/mytournaments')
+    }catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
+
+    }
+
+}
+
 export default { 
     getAllTournaments, 
     getMyTournaments, 
@@ -191,5 +210,6 @@ export default {
     renderAddRace,
     addRace,
     joinTournamenent,
-    getHistory
+    getHistory,
+    deleteTournament
 };

@@ -16,6 +16,7 @@ block content
                         p Inicio: #{el.FechaInicio} 
                         p Termino: #{el.FechaTermino}
                     a(href= url + el.TorneoID, class="btn") Más información
+                    if owner
+                        a(href= "/tournament/delete/" + el.TorneoID, class="btn") Eliminar
     else
         h3.vacio No posee torneos inscritos
-                    
