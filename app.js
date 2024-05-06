@@ -28,6 +28,10 @@ app.use(express.urlencoded({extended: false}));
 // Ruta principal.
 app.get('/', tournamentControllers.getAllTournaments)
 
+// Ruta editar perfil
+app.get('/edit', authorization.onlyLogin, userControllers.renderEdituser);
+app.post('/edit', authorization.onlyLogin, userControllers.editUser);
+
 // Ruta registro.
 app.get('/register', authorization.onlyNoLogin, userControllers.renderRegister);
 app.post('/register', authorization.onlyNoLogin, userControllers.userRegister);

@@ -76,7 +76,7 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        return res.status(200).render('./team/myteam.pug', { teamResult , status: true, statuslogin: true });
+        return res.status(200).render('./team/myteam.pug', { teamResult, status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);

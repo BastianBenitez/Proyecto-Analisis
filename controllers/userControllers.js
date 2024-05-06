@@ -1,7 +1,9 @@
 import connection from '../config/connectionDB.js';
+import authorization from '../middlewares/authorization.js';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { query } from 'express';
 
 dotenv.config();
 
@@ -73,4 +75,63 @@ const userLogin = async (req, res) => {
   }
 };
 
-export default { renderRegister, userRegister, renderLogin, userLogin };
+const renderEdituser = async (req, res) => {
+  const userID = await authorization.getUserIDToken(req);
+  const query = 'SELECT NombreUsuario, CorreoElectronico FROM usuarios WHERE UserID = ?';
+  
+
+  try{
+    const [[result]] = await connection.query(query, [userID.UserID])
+    return res.status(200).render('edituser.pug', { result, userID, status: true, statuslogin: true });
+  }catch(error){
+    console.log(error);
+    return res.status(500).send("Error en el server");
+
+  }
+}
+
+const editUser = async (req, res) => {
+  try {
+    const userID = await authorization.getUserIDToken(req);
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ success: false, message: 'Todos los campos deben de estar completados' });
+    }
+
+    if (name.length > 15 || !noHTML(name) || !noHTML(email)) {
+      return res.status(400).json({ success: false, message: 'Uno o varios de los campos no son válidos, inténtelo de nuevo' });
+    }
+
+    const [[userData]] = await connection.query("SELECT CorreoElectronico FROM usuarios WHERE UserID = ?", [userID.UserID]);
+    const currentEmail = userData.CorreoElectronico;
+
+    if (email !== currentEmail) {
+      const [emailCount] = await connection.query("SELECT COUNT(*) AS count FROM usuarios WHERE CorreoElectronico = ?", [email]);
+      if (emailCount[0].count === 1) {
+        return res.status(400).json({ success: false, message: 'El correo electrónico ya está registrado' });
+      }
+    }
+
+    // Actualizar los datos del usuario en la base de datos
+    const queryUpdate = 'UPDATE usuarios SET NombreUsuario = ?, CorreoElectronico = ? WHERE UserID = ?';
+    await connection.query(queryUpdate, [name, email, userID.UserID]);
+
+    // Retornar respuesta exitosa
+    return res.status(201).json({ success: true, message: 'Datos Actualizados', redirect: "/" });
+
+  } catch (error) {
+    console.error('Error en la edición del usuario:', error);
+    return res.status(500).json({ success: false, message: 'Error en la edición del usuario, por favor intenta de nuevo' });
+  }
+}
+
+
+export default { 
+  renderRegister, 
+  userRegister, 
+  renderLogin, 
+  userLogin,
+  renderEdituser,
+  editUser
+};
