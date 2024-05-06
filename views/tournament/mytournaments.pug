@@ -2,8 +2,9 @@ extends ../layout
 
 block content 
     h1 TORNEOS
-    .buttons-container
-        a.btn.btn-primary(href="/tournament/newtournament") Crear torneo
+    if !history
+        .buttons-container
+            a.btn.btn-primary(href="/tournament/newtournament") Crear torneo
     if status
         .product-grid
             each el in results 

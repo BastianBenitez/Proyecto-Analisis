@@ -29,7 +29,7 @@ const getMyTournaments = async (req, res) => {
         const [results] = await connection.query(query, [userID.UserID]);
         const status = results.length > 0;
 
-        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/mytournaments/'});
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, history: false,url: '/tournament/mytournaments/'});
     } catch (error) {
         console.error(error);
         return res.status(500).send('Error interno del servidor');
@@ -45,12 +45,12 @@ const getIParticipateIn = async (req, res) => {
         const [resultsID] = await connection.query(query, [userID.UserID])
         const tournamentIDs = resultsID.map(row => row.TorneoID);
         let condiciones = tournamentIDs.map(id => `TorneoID = ${id}`).join(' OR ');
-        const consultaCompleta = queryTournament + condiciones;
+        const consultaCompleta = queryTournament + condiciones + ' AND FechaTermino < CURRENT_DATE';
         const [results] = await connection.query(consultaCompleta);
         
         const status = resultsID.length > 0;
 
-        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, url: '/tournament/participate/'});
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, history: false, url: '/tournament/participate/'});
     }catch(error){
         console.log(error)
         return res.status(500).send('Error interno del servidor');
@@ -139,7 +139,7 @@ const addRace = async (req, res) => {
     }
 }
 
-const joinTournamenent = async (req, res) =>{
+const joinTournamenent = async (req, res) => {
     const torneoID = req.params.id;
     const userID = await authorization.getUserIDToken(req);
     const query = 'INSERT INTO participantes (UsuarioID, TorneoID) VALUES(?,?)';
@@ -159,6 +159,27 @@ const joinTournamenent = async (req, res) =>{
     }
 }
 
+const getHistory = async (req, res) =>{
+    const userID = await authorization.getUserIDToken(req);
+    const query = 'SELECT TorneoID FROM participantes WHERE UsuarioID = ?';
+    const queryTournament = 'SELECT * FROM torneos WHERE ';
+
+    try{
+        const [resultsID] = await connection.query(query, [userID.UserID])
+        const tournamentIDs = resultsID.map(row => row.TorneoID);
+        let condiciones = tournamentIDs.map(id => `TorneoID = ${id}`).join(' OR ');
+        const consultaCompleta = queryTournament + condiciones + ' AND FechaTermino < CURRENT_DATE';
+        const [results] = await connection.query(consultaCompleta);
+        
+        const status = resultsID.length > 0;
+
+        return res.render('./tournament/mytournaments.pug', { title: 'Torneos', results, status, statuslogin: true, history: true, url: '/tournament/participate/'});
+    }catch(error){
+        console.log(error)
+        return res.status(500).send('Error interno del servidor');
+    }
+}
+
 export default { 
     getAllTournaments, 
     getMyTournaments, 
@@ -169,5 +190,6 @@ export default {
     creationNewTournament,
     renderAddRace,
     addRace,
-    joinTournamenent
+    joinTournamenent,
+    getHistory
 };
