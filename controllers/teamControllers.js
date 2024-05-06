@@ -1,3 +1,4 @@
+import { crossOriginResourcePolicy } from 'helmet';
 import connection from '../config/connectionDB.js';
 import authorization from '../middlewares/authorization.js';
 
@@ -129,6 +130,36 @@ const deleteTeam = async (req, res) => {
     }
 }
 
+const renderEditTeam = async (req, res) => {
+    const equipoID = req.params.id;
+    req.session.equipoID = equipoID;
+    const query = 'SELECT EquipoID, Nombre, Descripcion FROM equipos WHERE EquipoID = ? ';
+    try {
+        const [[results]] = await connection.query(query, [equipoID]);
+        console.log(results);
+        return res.status(200).render('./team/editteam', { results, status: true, statuslogin: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send("Hubo un error en el servidor");
+    }
+}
+
+
+const editTeam = async (req, res) => {
+    const equipoID = req.session.equipoID;
+    const { name, description } = req.body;
+    const query = 'UPDATE equipos SET Nombre = ?, Descripcion = ? WHERE EquipoID = ? ';
+
+    try {
+        await connection.query(query, [name, description, equipoID])
+        return res.status(201).json({ success: true, message: 'Datos Actualizados', redirect: "/team/myteam" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send("Hubo un error en el servidor");
+    }
+}
+
+
 export default { 
     getMyTeams, 
     getDetailTeam, 
@@ -137,4 +168,6 @@ export default {
     creationNewTeamRender,
     teamRender,
     getIParticipateIn,
+    editTeam,
+    renderEditTeam
 }

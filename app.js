@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan'
 import helmet from 'helmet';
+import session from 'express-session';
+import dotenv from 'dotenv';
+
 
 //importacion de los controladores.
 import tournamentControllers from './controllers/tournamentControllers.js';
@@ -13,9 +16,15 @@ const app  = express();
 const port = 3000
 
 // Configuracion de la app.
+dotenv.config();
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Configuracion del motor de vista y la ruta de las vistas de la app.
 app.set('views', 'views');
@@ -78,7 +87,11 @@ app.post('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTea
 
 app.get('/myteam/delete/:id',authorization.onlyLogin, teamControllers.deleteTeam);
 
+app.get('/myteam/edit/:id',authorization.onlyLogin, teamControllers.renderEditTeam);
+app.post('/myteam/edit',authorization.onlyLogin, teamControllers.editTeam);
+
+
 // Inicio de la app iniciando la escucha en http://localhost:3000
-app.listen(port, ()=>{
+app.listen(port, ()=> {
     console.log(`la aplicacion es ejecuntadonse en http://localhost:${port}`)
 })

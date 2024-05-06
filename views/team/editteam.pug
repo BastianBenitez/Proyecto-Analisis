@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    #register-container
+        h2 Actualizar datos de equipo
+        form(action="/register" method="post")
+            .form-group
+                label(for="name") Nombre
+                input#name.form-control(type="text" name="name" value=results.Nombre required)
+            
+            .form-group
+                label(for="description") Descripcion
+                input#description.form-control-text(type="text" name="description" value=results.Descripcion required)
+
+            button.btn-register.btn-primary(type="submit") Actualizar 
+            p(class="hidden" id="alert")
+
+    script(src="/js/recoverDatesEditTeam.js")
