@@ -260,7 +260,6 @@ const deleteDriver = async (req, res) => {
     }
 }
 
-
 export default { 
     getAllTournaments, 
     getMyTournaments, 
