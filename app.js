@@ -76,7 +76,7 @@ app.get('/team/myteam/:id', authorization.onlyLogin, teamControllers.getDetailTe
 app.get('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeamRender);
 app.post('/team/newteam',authorization.onlyLogin, teamControllers.creationNewTeam);
 
-app.get('/myteam/edit',authorization.onlyLogin, teamControllers.editTeam);
+app.get('/myteam/delete/:id',authorization.onlyLogin, teamControllers.deleteTeam);
 
 // Inicio de la app iniciando la escucha en http://localhost:3000
 app.listen(port, ()=>{

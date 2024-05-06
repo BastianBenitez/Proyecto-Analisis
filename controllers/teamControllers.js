@@ -76,7 +76,7 @@ const getMyTeams = async (req, res) => {
         const consultaCompleta = queryTeam + condiciones;
 
         const [teamResult] = await connection.query(consultaCompleta);
-        return res.status(200).render('./team/myteam.pug', { teamResult, status: true, statuslogin: true });
+        return res.status(200).render('./team/myteam.pug', { teamResult, owner: true,status: true, statuslogin: true });
 
     } catch (error) {
         console.log(error);
@@ -112,16 +112,29 @@ const creationNewTeam = async (req, res) => {
     }
 };
 
-const editTeam = async (req, res) => {
+const deleteTeam = async (req, res) => {
+    const equipoID = req.params.id;
+    const queryDeleteTeam = 'DELETE FROM equipos WHERE EquipoID = ?';
+    const queryDeleteMember = 'DELETE FROM miembros_equipo WHERE EquipoID = ?';
+    const queryDeleteParticipe = 'DELETE FROM participacion_equipo WHERE EquipoID = ?';
 
+    try{
+        connection.query(queryDeleteParticipe, [equipoID]);
+        connection.query(queryDeleteMember, [equipoID]);
+        connection.query(queryDeleteTeam, [equipoID]);
+        res.redirect('/team/myteam/');
+    } catch (erorr) {
+        console.log(error);
+        return res.status(500).send("Hubo un error en el servidor");
+    }
 }
 
 export default { 
     getMyTeams, 
     getDetailTeam, 
     creationNewTeam, 
-    editTeam, 
+    deleteTeam, 
     creationNewTeamRender,
     teamRender,
-    getIParticipateIn
+    getIParticipateIn,
 }

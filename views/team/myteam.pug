@@ -13,6 +13,8 @@ block content
                         h2 #{el.Nombre}
                         p #{el.Descripcion}
                     a(href="/team/myteam/"+el.EquipoID, class="btn") Más información
+                    if owner   
+                        a(href="/myteam/delete/"+el.EquipoID, class="btn") Eleminar
     else
         h3.vacio No posee torneos inscritos
                         

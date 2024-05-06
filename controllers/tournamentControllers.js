@@ -187,10 +187,10 @@ const deleteTournament =  async (req, res) => {
     const queryDeleteParticipate = 'DELETE FROM participantes WHERE TorneoID = ?'
 
     try{
-        connection.query(queryDeleteRace, [torneoID])
-        connection.query(queryDeleteParticipate, [torneoID])
-        connection.query(queryDeleteTorunament, [torneoID])
-        res.redirect('/tournament/mytournaments')
+        connection.query(queryDeleteRace, [torneoID]);
+        connection.query(queryDeleteParticipate, [torneoID]);
+        connection.query(queryDeleteTorunament, [torneoID]);
+        res.redirect('/tournament/mytournaments');
     }catch (error) {
         console.log(error);
         return res.status(500).send('Error interno del servidor');
