@@ -1,0 +1,27 @@
+/* tables.css */
+.center-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+.center-table th,
+.center-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.center-table th {
+    background-color: #222032;
+    color: white;
+}
+
+.center-table tbody tr:nth-child(even) {
+    background-color: #222032;
+    color: white;
+}
+
+.center-table tbody tr:hover {
+    background-color: #9B50E1;
+    color: white;
+}

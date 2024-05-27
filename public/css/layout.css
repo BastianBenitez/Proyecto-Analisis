@@ -1,0 +1,14 @@
+/* layout.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%;
+    margin-left: 100px;
+}
